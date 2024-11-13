@@ -52,3 +52,114 @@ $$
 \text{Tráfico} &           \text{Max} & 9    & 7    & 5    & 1.5 & 0.5 & 3 \\
 \end{array}
 $$
+<br>
+
+Resuelve este problema mediante los métodos AHP (con funciones R y con ayuda de la librería AHP), Electre y Promethee.
+
+<br>
+
+________________________________________________________________________________
+
+<br>
+
+Antes de empezar, importamos los scripts R donde se cargarán todas las funciones que necesitaremos para resolver el problema:
+```{r}
+source("teoriadecision_funciones_multicriterio.R")
+source("teoriadecision_funciones_multicriterio_diagram.R")
+source("teoriadecision_funciones_multicriterio_utiles.R")
+```
+
+<br><br>
+
+## Resolución con método Promethee
+<br>
+Creamos la matriz de decisión teniendo en cuenta los criterios de maximizar o minimizar. En este último caso, los valores serán negativos.
+```{r}
+matrizDecision = multicriterio.crea.matrizdecision(c(8,6,4,
+                                                     -3000,-2500,-2000,
+                                                     9,7,5), 
+                                                  numalternativas = 3, numcriterios = 3,
+                                                  v.nombresalt = c("Ubicación A","Ubicación B","Ubicación C"),
+                                                  v.nombrescri = c("Accesibilidad","Costo alquiler","Tráfico"))
+matrizDecision
+```
+
+Introducimos la tabla de preferencias:
+```{r}
+tab.fpref = matrix(c(4,1,0.5,2,
+                     4,2,1,4,
+                     3,1.5,0.5,3),
+                   ncol = 4,byrow = T)
+colnames(tab.fpref) <- c("num.pref","qi","pi","si")
+tab.fpref
+```
+
+Ahora ya podemos aplicar el método **Promethee I**.
+```{r}
+tab.Pthee.i <- multicriterio.metodo.promethee_i(matrizDecision, pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),tab.fpref = tab.fpref)
+tab.Pthee.i
+qgraph::qgraph(tab.Pthee.i$tablarelacionsupera)
+```
+<br>
+
+**CONCLUSIÓN:** en base a estos resultados podemos decir que la ubicación C es la opción preferida, ya que es la que tiene mayor flujo de entrada (1.25) y además gráficamente domina en comparación con las demás ubicaciones A y B. Por el contrario, la ubicación B es la peor alternativa con un flujo de entrada de 0.00, lo que indica que no es favorecida en ninguna comparación.
+
+
+Para llegar a una visión más clara aplicamos **Promethee II**.
+```{r}
+tab.Pthee.ii <- multicriterio.metodo.promethee_ii(matrizDecision, pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
+tab.fpref = tab.fpref)
+tab.Pthee.ii
+qgraph::qgraph(tab.Pthee.ii$tablarelacionsupera)
+```
+<br>
+
+**CONCLUSIÓN:** dados los flujos netos, se muestra claramente que la mejor alternativa es la ubicación C, que tiene el flujo neto más alto (1.25) y domina a las otras ubicaciones. La ubicación A es preferida sobre B pero no tanto como C ya que tiene un flujo neto más bajo con valor de 0.75. La peor alternativa será la ubicación B que posee un flujo neto negativo, indicando que es generalmente desfavorecida en comparación con las otras dos.
+
+La ordenación final de las alternativas según el método Promethee II será:
+```{r Order}
+order(tab.Pthee.ii$vflujos.netos,decreasing = T)
+```
+Finalmente podemos decir que la mejor decisión para la cadena será abrir el nuevo restaurante en la ubicación C, una zona de oficinas.
+
+
+Ahora lo analizamos mediante el **método Promethee I con medias**.
+```{r}
+tab.Pthee.i_medias <- multicriterio.metodo.promethee_i_med(matrizDecision,
+ pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),tab.fpref = tab.fpref)
+tab.Pthee.i_medias
+qgraph::qgraph(tab.Pthee.i_medias$tablarelacionsupera)
+```
+<br>
+
+**CONCLUSIÓN:** se observa que la ubicación C sigue siendo es la mejor opción, ya que es la que tiene mayor flujo de entrada (0.625) y además gráficamente domina en comparación con las demás ubicaciones A y B. Por el contrario, la ubicación B es la peor alternativa con un flujo de entrada de 0.00, lo que indica que no es favorecida en ninguna comparación. 
+
+Con el método **Promethee II con medias**.
+```{r}
+tab.Pthee.ii_medias <- multicriterio.metodo.promethee_ii_med(matrizDecision,pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),tab.fpref = tab.fpref)
+tab.Pthee.ii_medias
+qgraph::qgraph(tab.Pthee.ii_medias$tablarelacionsupera)
+```
+
+La ordenación final de las alternativas según el método Promethee II con medias será:
+```{r}
+order(tab.Pthee.ii_medias$vflujos.netos,decreasing = T)
+```
+Los resultados coinciden con el método Promethee II analizado antes, la cadena deberá elegir la ubicación C, una zona de oficinas para abrir su nuevo restaurante. Esta alternativa es la que presenta mayor flujo neto, un valor de 0.625, en comparación con las demás.
+
+
+
+<br>
+
+________________________________________________________________________________
+
+<br>
+
+## Resolución con método Electre
+<br>
+
+
+
+
+
+
