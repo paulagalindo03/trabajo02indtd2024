@@ -1,0 +1,54 @@
+---
+title: "trabajo2"
+author: "paugalcas"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br>
+
+### TEMA: "Elección de la ubicación para abrir un nuevo restaurante"
+
+Una cadena de restaurantes está planeando expandir su negocio en la ciudad de Sevilla. Después de analizar varias zonas, la empresa ha seleccionado tres ubicaciones donde podría abrir su próximo local. Sin embargo, cada una de estas ubicaciones presenta ventajas y desventajas en diferentes aspectos, por lo que la cadena desea tomar una decisión final basada en tres criterios principales: facilidad en la accesibilidad para los clientes (puntuándose del 1 al 10, siendo 10 una accesibilidad excelente), costo mensual (en €) de alquiler del nuevo local y el tráfico de personas en la ubicación (puntuándose del 1 al 10, donde 10 representa el tráfico más alto de clientes).
+
+Las tres ubicaciones consideradas son:
+
+**Ubicación A**, se trata de una zona céntrica con las siguientes características: <br>
+
+- Accesibilidad: 8 (muy buena) <br>
+- Costo de alquiler: 3000€ <br>
+- Tráfico: 9, ya que se trataría de una zona peatonal al alcance de todos los ciudadanos.
+
+**Ubicación B**, se trata de un área comercial con las siguientes características: <br>
+
+- Accesibilidad: 6 (buena) <br>
+- Costo de alquiler: 2500€ <br>
+- Tráfico: 7, se sitúa en buena zona comercial pero con competidores cercanos.
+ 
+**Ubicación C**, se trata de una zona de oficinas, donde trabajan muchas personas, con las siguientes características: <br>
+
+- Accesibilidad: 4 (baja) <br>
+- Costo de alquiler: 2000€ <br>
+- Tráfico: 5, ya que el tráfico se desarrolla principalmente en el horario laboral.
+   
+   
+Los pesos que la cadena de restaurantes establece a los criterios estudiados serían los siguientes:
+
+- **Accesibilidad:** 1, ya que es un aspecto importante pero no crucial.
+- **Costo de alquiler:** 2, es el factor más relevante para la toma de la decisión final.
+- **Tráfico:** 1.5, ya que es un factor clave para el éxito del restaurante.
+
+Para la decisión final importante maximizar la accesibilidad y el tráfico de clientes mientras que el costo de alquiler debe ser mínimo. Por tanto, para recopilar toda esta información, se muestra la siguiente tabla con las valoraciones de las alternativas para cada criterio, junto con los correspondientes parámetros para desarrollar el problema.
+
+$$
+\begin{array}{c|c|ccc|ccc}
+\text{Criterios} & \text{Min/Max} & \text{Ubicación A} & \text{Ubicación B} & \text{Ubicación C} & \text{p} & \text{q} & \text{s} \\
+\hline
+\text{Accesibilidad} &     \text{Max} & 8    & 6    & 4    & 1   & 0.5 & 2 \\
+\text{Costo de alquiler} & \text{Min} & 3000 & 2500 & 2000 & 2   & 1   & 4 \\
+\text{Tráfico} &           \text{Max} & 9    & 7    & 5    & 1.5 & 0.5 & 3 \\
+\end{array}
+$$
