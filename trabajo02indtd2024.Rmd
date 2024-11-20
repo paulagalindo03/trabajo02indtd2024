@@ -1,0 +1,92 @@
+---
+title: "Trabajo02 - Teoría de la Decisión"
+author: "Paula Mª Galindo Casas"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+<br>
+
+### TEMA: "Elección de la ubicación para abrir un nuevo restaurante"
+
+Una cadena de restaurantes está planeando expandir su negocio en la ciudad de Sevilla. Después de analizar varias zonas, la empresa ha seleccionado cinco ubicaciones donde podría abrir su próximo local. Sin embargo, cada una de estas ubicaciones presenta ventajas y desventajas en diferentes aspectos, por lo que la cadena desea tomar una decisión final basada en cinco criterios principales: facilidad en la accesibilidad para los clientes (puntuándose del 1 al 10, siendo 10 una accesibilidad excelente), costo mensual (en €) de alquiler del nuevo local, el tráfico de personas en la ubicación (puntuándose del 1 al 10, donde 10 representa el tráfico más alto de clientes), la visibilidad del local en avenidas principales o zonas concurridas (que se mide del 1 al 10, siendo 10 la mejor visibilidad) y la competencia en la zona con otros restaurantes (medida del 1 al 10, siendo 1 la máxima competencia).
+
+Las tres ubicaciones consideradas son:
+
+**Ubicación A**, se trata de una zona céntrica con las siguientes características: <br>
+
+- Accesibilidad: 8 (muy buena) <br>
+- Costo de alquiler: 3000€ <br>
+- Tráfico: 9, ya que se trataría de una zona peatonal al alcance de todos los ciudadanos.
+
+**Ubicación B**, se trata de un área comercial con las siguientes características: <br>
+
+- Accesibilidad: 6 (buena) <br>
+- Costo de alquiler: 2500€ <br>
+- Tráfico: 7, se sitúa en buena zona comercial pero con competidores cercanos.
+ 
+**Ubicación C**, se trata de una zona de oficinas, donde trabajan muchas personas, con las siguientes características: <br>
+
+- Accesibilidad: 4 (baja) <br>
+- Costo de alquiler: 2000€ <br>
+- Tráfico: 5, ya que el tráfico se desarrolla principalmente en el horario laboral.
+
+**Ubicación D**, se trata de un área universitaria, con las siguientes características: <br>
+
+- Accesibilidad: 7 (buena) <br>
+- Costo de alquiler: 2700€ <br>
+- Tráfico: 8, ya que los estudiantes generan gran afluencia en horas de comida y tarde.
+
+**Ubicación E**, se trata de una zona residencial de alto nivel económico, con las siguientes características: <br>
+
+- Accesibilidad: 9 (muy buena) <br>
+- Costo de alquiler: 3500€ <br>
+- Tráfico: 6, es una zona tranquila y con menor flujo peatonal.
+   
+   
+Los pesos que la cadena de restaurantes establece a los criterios estudiados serían los siguientes:
+
+- **Accesibilidad:** 1, ya que es un aspecto importante pero no crucial.
+- **Costo de alquiler:** 2, es el factor más relevante para la toma de la decisión final.
+- **Tráfico:** 1.5, ya que es un factor clave para el éxito del restaurante.
+- **Visibilidad:** 1.2, es importante que se sitúe en una zona visible para el público.
+- **Competencia:** 0.8, no es el factor más importante para la cadena de restaurantes.
+
+Para la decisión final es importante maximizar la accesibilidad, el tráfico de clientes, la visibilidad y competencia mientras que el costo de alquiler debe ser mínimo. Por tanto, para recopilar toda esta información, se muestra la siguiente tabla con las valoraciones de las alternativas para cada criterio, junto con los correspondientes parámetros para desarrollar el problema.
+
+<br>
+$$
+\begin{array}{c|c|c|ccccc|ccc}
+\text{Criterios} & \text{Min/Max} & \text{Peso} & \text{Ubicación A} & \text{Ubicación B} & \text{Ubicación C} & \text{Ubicación D} & \text{Ubicación E} & \text{Tipo} & \text{p} & \text{q} & \text{s} \\
+\hline
+\text{Accesibilidad} & \text{Max} & 1 & 8 & 6 & 4 & 7& 9 & \text{II} & 0 & 0 & - \\
+\text{Costo de alquiler} & \text{Min} & 2 & 3000 & 2500 & 2000 & 2700 & 3500 & \text{V} & 500 & 100 & - \\
+\text{Tráfico} & \text{Max} & 1.5 & 9 & 7 & 5 & 8 & 6 & \text{III} & 2 & 1 & - \\
+\text{Visibilidad} & \text{Max} & 1.2 & 8 & 7 & 6 & 7 & 9 & \text{II} & 0 & 0 & - \\
+\text{Competencia} & \text{Max} & 0.8 & 6 & 5 & 4 & 6 & 3 & \text{IV} & 2 & 1 & - \\
+\end{array}
+$$
+<br>
+
+Resuelve este problema mediante los métodos Promethee (aplicando también los de medias y Windows), Electre (iniciando el proceso con un α = 0.7 y d = (∞,∞,∞)) y AHP (con funciones R y con ayuda de la librería AHP)
+
+<br>
+
+________________________________________________________________________________
+
+<br>
+
+Antes de empezar, importamos los scripts R donde se cargarán todas las funciones que necesitaremos para resolver el problema:
+```{r}
+source("teoriadecision_funciones_multicriterio.R")
+source("teoriadecision_funciones_multicriterio_diagram.R")
+source("teoriadecision_funciones_multicriterio_utiles.R")
+```
+
+<br><br>
+
+## Resolución con método Promethee (medias y Windows)
+<br>
