@@ -71,7 +71,7 @@ $$
 $$
 <br>
 
-Resuelve este problema mediante los métodos Promethee (aplicando tambi1én los de medias y Windows), Electre (iniciando el proceso con un α = 0.7 y d = (∞,∞,∞)) y AHP (con funciones R y con ayuda de la librería AHP)
+Resuelve este problema mediante los métodos Promethee (aplicando tambi1én los de medias y Windows), Electre (iniciando el proceso con un α = 0.7 y d = (∞,∞,∞,∞,∞)) y AHP (con funciones R y con ayuda de la librería AHP)
 
 <br>
 
@@ -98,8 +98,10 @@ matrizDecision = multicriterio.crea.matrizdecision(c(8,6,4,7,9,
                                                      8,7,6,7,9,
                                                      6,5,4,6,3), 
                                                   numalternativas = 5, numcriterios = 5,
-                                                  v.nombresalt = c("Ubicación A","Ubicación B","Ubicación C","Ubicación D","Ubicación E"),
-                                                  v.nombrescri = c("Accesibilidad","Costo alquiler","Tráfico","Visibilidad","Competencia"))
+                                                  v.nombresalt = c("Ubicación A","Ubicación B","Ubicación C",
+                                                                   "Ubicación D","Ubicación E"),
+                                                  v.nombrescri = c("Accesibilidad","Costo alquiler",
+                                                                   "Tráfico","Visibilidad","Competencia"))
 matrizDecision
 ```
 
@@ -117,7 +119,9 @@ tab.fpref
 
 Ahora ya podemos aplicar el método **Promethee I**.
 ```{r}
-tab.Pthee.i <- multicriterio.metodo.promethee_i(matrizDecision, pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),tab.fpref = tab.fpref)
+tab.Pthee.i <- multicriterio.metodo.promethee_i(matrizDecision, 
+                                                pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
+                                                tab.fpref = tab.fpref)
 tab.Pthee.i
 qgraph::qgraph(tab.Pthee.i$tablarelacionsupera)
 ```
@@ -128,8 +132,9 @@ qgraph::qgraph(tab.Pthee.i$tablarelacionsupera)
 
 Para llegar a una visión más clara aplicamos **Promethee II**.
 ```{r}
-tab.Pthee.ii <- multicriterio.metodo.promethee_ii(matrizDecision, pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
-tab.fpref = tab.fpref)
+tab.Pthee.ii <- multicriterio.metodo.promethee_ii(matrizDecision, 
+                                                  pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
+                                                  tab.fpref = tab.fpref)
 tab.Pthee.ii
 qgraph::qgraph(tab.Pthee.ii$tablarelacionsupera)
 ```
@@ -148,7 +153,8 @@ Finalmente podemos decir que la mejor decisión para la cadena será abrir el nu
 Ahora lo analizamos mediante el **método Promethee I con medias**.
 ```{r}
 tab.Pthee.i_medias <- multicriterio.metodo.promethee_i_med(matrizDecision,
- pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),tab.fpref = tab.fpref)
+                                                           pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
+                                                           tab.fpref = tab.fpref)
 tab.Pthee.i_medias
 qgraph::qgraph(tab.Pthee.i_medias$tablarelacionsupera)
 ```
@@ -158,7 +164,9 @@ qgraph::qgraph(tab.Pthee.i_medias$tablarelacionsupera)
 
 Con el método **Promethee II con medias**.
 ```{r}
-tab.Pthee.ii_medias <- multicriterio.metodo.promethee_ii_med(matrizDecision,pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),tab.fpref = tab.fpref)
+tab.Pthee.ii_medias <- multicriterio.metodo.promethee_ii_med(matrizDecision,
+                                                             pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
+                                                             tab.fpref = tab.fpref)
 tab.Pthee.ii_medias
 qgraph::qgraph(tab.Pthee.ii_medias$tablarelacionsupera)
 ```
@@ -202,3 +210,64 @@ ________________________________________________________________________________
 
 ## Resolución con método Electre
 <br>
+Partiendo de la matriz de decisión creada al principio donde los criterios de minimizar son valores negativos y los de maximizar son positivos, resolvemos el problema mediante el método Electre.
+
+Matriz de decisión:
+```{r}
+matrizDecision
+```
+<br>
+
+Comenzamos el proceso con un valor α = 0.7 y d = (∞,∞,∞,∞,∞).
+```{r}
+solElectre_1 <- multicriterio.metodoELECTRE_I(matrizDecision,
+                                      pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
+                                      nivel.concordancia.minimo.alpha = 0.7,
+                                      no.se.compensan = c(Inf, Inf, Inf, Inf, Inf),
+                                      que.alternativas = TRUE)
+solElectre_1
+qgraph::qgraph(solElectre_1$relacion.dominante)
+solElectre_1$nucleo_aprox
+```
+<br>
+**CONCLUSIÓN:** en el núcleo aproximado se encuentran las ubicaciones C y D, es decir, las que no son dominadas por otras. Por este motivo, estas dos alternativas son las mejores para abrir el futuro restaurante. 
+
+Volvemos a realizar el proceso reduciendo el número de las alternativas por las que han resultado en el núcleo aproximado.
+```{r}
+solElectre_2 <- multicriterio.metodoELECTRE_I(matrizDecision,
+                                      pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
+                                      nivel.concordancia.minimo.alpha = 0.7,
+                                      no.se.compensan = c(Inf, Inf, Inf, Inf, Inf),
+                                      que.alternativas = c(3,4))
+solElectre_2
+qgraph::qgraph(solElectre_2$relacion.dominante)
+solElectre_2$nucleo_aprox
+```
+<br>
+**CONCLUSIÓN:** en esta iteración hemos tomado solo las dos alternativas, C y D, pero nos vuelve a salir el mismo núcleo aproximado. Probamos ahora reduciendo el valor de alpha (nivel de concordancia mínimo) a 0.6.
+
+```{r}
+solElectre_3 <- multicriterio.metodoELECTRE_I(matrizDecision,
+                                      pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
+                                      nivel.concordancia.minimo.alpha = 0.6,
+                                      no.se.compensan = c(Inf, Inf, Inf, Inf, Inf),
+                                      que.alternativas = c(3,4))
+solElectre_3
+qgraph::qgraph(solElectre_3$relacion.dominante)
+solElectre_3$nucleo_aprox
+```
+<br>
+**CONCLUSIÓN:** hemos conseguido reducir el núcleo aproximado a una sola alternativa que es la ubicación D. Por tanto podemos decir que la mejor decisión que puede tomar la cadena para abrir el nuevo restaurante es la ubicación D.
+
+
+<br>
+
+________________________________________________________________________________
+
+<br>
+
+## Resolución con método AHP (mediante funciones R y librería AHP)
+<br>
+
+
+
