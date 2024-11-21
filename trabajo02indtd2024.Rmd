@@ -56,22 +56,25 @@ Los pesos que la cadena de restaurantes establece a los criterios estudiados ser
 - **Competencia:** 0.8, no es el factor más importante para la cadena de restaurantes.
 
 Para la decisión final es importante maximizar la accesibilidad, el tráfico de clientes, la visibilidad y competencia mientras que el costo de alquiler debe ser mínimo. Por tanto, para recopilar toda esta información, se muestra la siguiente tabla con las valoraciones de las alternativas para cada criterio, junto con los correspondientes parámetros para desarrollar el problema.
-
-<br>
+ 
 $$
-\begin{array}{c|c|c|ccccc|ccc}
-\text{Criterios} & \text{Min/Max} & \text{Peso} & \text{Ubicación A} & \text{Ubicación B} & \text{Ubicación C} & \text{Ubicación D} & \text{Ubicación E} & \text{Tipo} & \text{q} & \text{p} & \text{s} \\
+\begin{array}{|c|c|ccccc|cccc|}
 \hline
-\text{Accesibilidad} & \text{Max} & 1 & 8 & 6 & 4 & 7& 9 & \text{I} & 1 & 1 & 2 \\
-\text{Costo de alquiler} & \text{Min} & 2 & 3000 & 2500 & 2000 & 2700 & 3500 & \text{V} & 0 & 2 & 4 \\
-\text{Tráfico} & \text{Max} & 1.5 & 9 & 7 & 5 & 8 & 6 & \text{II} & 1 & 1.5 & 3 \\
-\text{Visibilidad} & \text{Max} & 1.2 & 8 & 7 & 6 & 7 & 9 & \text{I} & 0.5 & 1.2 & 1 \\
-\text{Competencia} & \text{Max} & 0.8 & 6 & 5 & 4 & 6 & 3 & \text{IV} & 1 & 0.8 & 3 \\
+\textbf{Criterios} & \textbf{Min/Max} & \text{} & \text{} & \textbf{Alternativas} & \text{} & \text{} & \text{} & \textbf{Parámetros} & \text{} \\
+\hline
+\hline
+\text{} & \text{} & \text{Ubicación A} & \text{Ubicación B} & \text{Ubicación C} & \text{Ubicación D} & \text{Ubicación E} & \text{Tipo} & \text{q} & \text{p} & \text{s} \\
+\hline
+\text{Accesibilidad} & \text{Max} & 8 & 6 & 4 & 7& 9 & \text{I} & 1 & 1 & 2 \\
+\text{Costo de alquiler} & \text{Min} & 3000 & 2500 & 2000 & 2700 & 3500 & \text{V} & 0 & 2 & 4 \\
+\text{Tráfico} & \text{Max} & 9 & 7 & 5 & 8 & 6 & \text{II} & 1 & 1.5 & 3 \\
+\text{Visibilidad} & \text{Max} & 8 & 7 & 6 & 7 & 9 & \text{I} & 0.5 & 1.2 & 1 \\
+\text{Competencia} & \text{Max} & 6 & 5 & 4 & 6 & 3 & \text{IV} & 1 & 0.8 & 3 \\
+\hline
 \end{array}
 $$
 <br>
-
-Resuelve este problema mediante los métodos Promethee (aplicando tambi1én los de medias y Windows), Electre (iniciando el proceso con un α = 0.7 y d = (∞,∞,∞,∞,∞)) y AHP (con funciones R y con ayuda de la librería AHP)
+Resuelve este problema mediante los métodos Promethee (aplicando también los de medias y Windows), Electre (iniciando el proceso con un α = 0.7 y d = (∞,∞,∞,∞,∞)) y AHP (con funciones R y con ayuda de la librería AHP)
 
 <br>
 
@@ -92,11 +95,11 @@ source("teoriadecision_funciones_multicriterio_utiles.R")
 <br>
 Creamos la matriz de decisión teniendo en cuenta los criterios de maximizar o minimizar. En este último caso, los valores serán negativos.
 ```{r}
-matrizDecision = multicriterio.crea.matrizdecision(c(8,6,4,7,9,
-                                                     -3000,-2500,-2000,-2700,-3500,
-                                                     9,7,5,8,6,
-                                                     8,7,6,7,9,
-                                                     6,5,4,6,3), 
+matrizDecision = multicriterio.crea.matrizdecision(c(8, -3000, 9, 8, 6, 
+                                                     6, -2500, 7, 7, 5,
+                                                     4, -2000, 5, 6, 4, 
+                                                     7, -2700, 8, 7, 6, 
+                                                     9, -3500, 6, 9, 3), 
                                                   numalternativas = 5, numcriterios = 5,
                                                   v.nombresalt = c("Ubicación A","Ubicación B","Ubicación C",
                                                                    "Ubicación D","Ubicación E"),
@@ -127,7 +130,7 @@ qgraph::qgraph(tab.Pthee.i$tablarelacionsupera)
 ```
 <br>
 
-**CONCLUSIÓN:** en base a estos resultados podemos decir que la ubicación C es la opción preferida para el nuevo restaurante ya que es la que tiene mayor flujo de entrada (2.600000) y además, gráficamente, domina en comparación con las demás ubicaciones porque es el nodo que tiene más flechas salientes. Por el contrario, la ubicación B es la peor alternativa con un flujo de entrada de 0.00000, lo que indica que no es favorecida en ninguna comparación.
+**CONCLUSIÓN:** en base a estos resultados podemos decir que la ubicación A es la mejor opción para el nuevo restaurante ya que es la que tiene el mayor flujo de entrada (2.261538), lo que indica que es la más preferida en comparación con el resto. Además, gráficamente, domina respecto a las demás ubicaciones porque es el nodo que tiene más flechas salientes. Por el contrario, la ubicación C es la peor alternativa con un flujo de entrada de 1.230769 y es el nodo al que llegan todas las flechas.
 
 
 Para llegar a una visión más clara aplicamos **Promethee II**.
@@ -140,13 +143,13 @@ qgraph::qgraph(tab.Pthee.ii$tablarelacionsupera)
 ```
 <br>
 
-**CONCLUSIÓN:** dados los flujos netos (diferencia entre el flujo de salida y de entrada) se muestra claramente que la mejor alternativa es la ubicación C, que tiene el valor de flujo neto más alto (2.3538462) y domina a las otras ubicaciones. La ubicación D es preferida sobre A pero no tanto como C ya que tiene un flujo neto más bajo con valor de 2.1692308. La peor alternativa, sin duda, será la ubicación B que posee un flujo neto negativo de -4.0000000, indicando que es generalmente desfavorecida en comparación con las restantes.
+**CONCLUSIÓN:** dados los flujos netos (diferencia entre el flujo de entrada y de salida) se muestra claramente que la mejor alternativa es la ubicación A, que tiene el valor de flujo neto más alto (1.0000000) y domina a las otras ubicaciones. La ubicación D es preferida sobre B pero no tanto como A ya que tiene un flujo neto más bajo con valor de 0.5230769. La peor alternativa, sin duda, será la ubicación C que posee un flujo neto negativo, de -1.0615385, indicando que es desfavorecida en comparación con las restantes.
 
 La ordenación final de las alternativas según el método Promethee II será:
 ```{r Order}
 order(tab.Pthee.ii$vflujos.netos,decreasing = T)
 ```
-Finalmente podemos decir que la mejor decisión para la cadena será abrir el nuevo restaurante en la ubicación C, una zona de oficinas.
+Finalmente podemos decir que la mejor decisión para la cadena será abrir el nuevo restaurante en la ubicación A, una zona céntrica de la ciudad.
 
 <br>
 
@@ -160,7 +163,7 @@ qgraph::qgraph(tab.Pthee.i_medias$tablarelacionsupera)
 ```
 <br>
 
-**CONCLUSIÓN:** se observa que la ubicación C sigue siendo es la mejor opción, ya que es la que tiene mayor flujo de entrada (0.6500000) y además gráficamente domina en comparación con las demás ubicaciones. La ubicación D posee un valor de flujo entrante cercano al de C pero se mantiene por debajo. Por el contrario, la ubicación B es la peor alternativa con un flujo de entrada de 0.00, lo que indica que no es favorecida en ninguna comparación. 
+**CONCLUSIÓN:** se observa que la ubicación A sigue siendo es la mejor opción, ya que es la que tiene mayor flujo de entrada (0.5653846) y además gráficamente domina en comparación con las demás ubicaciones. La ubicación D posee un valor de flujo entrante cercano al de A pero se mantiene por debajo con un valor de 0.4538462. Por el contrario, la ubicación C es la peor alternativa con un flujo de entrada de 0.3076923. 
 
 Con el método **Promethee II con medias**.
 ```{r}
@@ -175,7 +178,7 @@ La ordenación final de las alternativas según el método Promethee II con medi
 ```{r}
 order(tab.Pthee.ii_medias$vflujos.netos,decreasing = T)
 ```
-Los resultados coinciden con el método Promethee II analizado antes, la cadena deberá elegir la ubicación C, una zona de oficinas para abrir su nuevo restaurante. Esta alternativa es la que presenta mayor flujo neto, un valor de 0.5884615, en comparación con las demás.
+Los resultados coinciden con el método Promethee II analizado antes, la cadena deberá elegir la ubicación A, una zona céntrica de Sevilla, para abrir su nuevo restaurante. Esta alternativa es la que presenta mayor flujo neto, un valor de 0.25000000, en comparación con las demás.
 
 <br>
 
@@ -199,7 +202,7 @@ tabla_res$tabAcciones
 ```
 <br>
 
-**CONCLUSIÓN:** de igual manera que concluimos en los métodos Promethee anteriores, podemos decir que la mejor alternativa que puede tomar la cadena para abrir un nuevo restaurante será la ubicación C, una zona de oficinas, seguida de la ubicación D, A, E y quedando como peor alternativa la ubicación B.
+**CONCLUSIÓN:** de igual manera que concluimos en los métodos Promethee anteriores, podemos decir que la mejor alternativa que puede tomar la cadena para abrir un nuevo restaurante será la ubicación A, una zona de oficinas, seguida de la ubicación D, B, E y quedando como peor alternativa la ubicación C.
 
 
 <br>
@@ -230,34 +233,20 @@ qgraph::qgraph(solElectre_1$relacion.dominante)
 solElectre_1$nucleo_aprox
 ```
 <br>
-**CONCLUSIÓN:** en el núcleo aproximado se encuentran las ubicaciones C y D, es decir, las que no son dominadas por otras. Por este motivo, estas dos alternativas son las mejores para abrir el futuro restaurante. 
+**CONCLUSIÓN:** en el núcleo aproximado se encuentran todas las ubicaciones. Por lo tanto volvemos a repetir el método para un valor más bajo del índice de concordancia mínimo. Probamos con α = 0.65 manteniendo las mismas alternativas.
 
-Volvemos a realizar el proceso reduciendo el número de las alternativas por las que han resultado en el núcleo aproximado.
 ```{r}
 solElectre_2 <- multicriterio.metodoELECTRE_I(matrizDecision,
                                       pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
-                                      nivel.concordancia.minimo.alpha = 0.7,
+                                      nivel.concordancia.minimo.alpha = 0.65,
                                       no.se.compensan = c(Inf, Inf, Inf, Inf, Inf),
-                                      que.alternativas = c(3,4))
+                                      que.alternativas = TRUE)
 solElectre_2
 qgraph::qgraph(solElectre_2$relacion.dominante)
 solElectre_2$nucleo_aprox
 ```
 <br>
-**CONCLUSIÓN:** en esta iteración hemos tomado solo las dos alternativas, C y D, pero nos vuelve a salir el mismo núcleo aproximado. Probamos ahora reduciendo el valor de alpha (nivel de concordancia mínimo) a 0.6.
-
-```{r}
-solElectre_3 <- multicriterio.metodoELECTRE_I(matrizDecision,
-                                      pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
-                                      nivel.concordancia.minimo.alpha = 0.6,
-                                      no.se.compensan = c(Inf, Inf, Inf, Inf, Inf),
-                                      que.alternativas = c(3,4))
-solElectre_3
-qgraph::qgraph(solElectre_3$relacion.dominante)
-solElectre_3$nucleo_aprox
-```
-<br>
-**CONCLUSIÓN:** hemos conseguido reducir el núcleo aproximado a una sola alternativa que es la ubicación D. Por tanto podemos decir que la mejor decisión que puede tomar la cadena para abrir el nuevo restaurante es la ubicación D.
+**CONCLUSIÓN:** hemos conseguido reducir el núcleo aproximado a una sola alternativa que es la ubicación A. Por tanto podemos decir que la mejor decisión que puede tomar la cadena para abrir el nuevo restaurante es la ubicación A, una zona céntrica de la ciudad.
 
 
 <br>
@@ -268,6 +257,10 @@ ________________________________________________________________________________
 
 ## Resolución con método AHP (mediante funciones R y librería AHP)
 <br>
+Para determinar la mejor ubicación, la cadena ha identificado las siguientes matrices de comparación por pares para cada criterio (accesibilidad, costo de alquiler, tráfico, visibilidad y competencia) para evaluar las ubicaciones A, B, C, D y E. También ha recogido sus prioridades en relación con los cinco criterios manejados.
+
+<br>
+
 
 
 
