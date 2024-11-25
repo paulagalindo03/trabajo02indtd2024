@@ -14,37 +14,47 @@ knitr::opts_chunk$set(echo = TRUE)
 
 Una cadena de restaurantes está planeando expandir su negocio en la ciudad de Sevilla. Después de analizar varias zonas, la empresa ha seleccionado cinco ubicaciones donde podría abrir su próximo local. Sin embargo, cada una de estas ubicaciones presenta ventajas y desventajas en diferentes aspectos, por lo que la cadena desea tomar una decisión final basada en cinco criterios principales: facilidad en la accesibilidad para los clientes (puntuándose del 1 al 10, siendo 10 una accesibilidad excelente), costo mensual (en €) de alquiler del nuevo local, el tráfico de personas en la ubicación (puntuándose del 1 al 10, donde 10 representa el tráfico más alto de clientes), la visibilidad del local en avenidas principales o zonas concurridas (que se mide del 1 al 10, siendo 10 la mejor visibilidad) y la competencia en la zona con otros restaurantes (medida del 1 al 10, siendo 1 la máxima competencia).
 
-Las tres ubicaciones consideradas son:
+Las cinco ubicaciones consideradas son:
 
 **Ubicación A**, se trata de una zona céntrica con las siguientes características: <br>
 
 - Accesibilidad: 8 (muy buena) <br>
 - Costo de alquiler: 3000€ <br>
 - Tráfico: 9, ya que se trataría de una zona peatonal al alcance de todos los ciudadanos.
+- Visibilidad: 8 (muy buena)
+- Competencia: 6
 
 **Ubicación B**, se trata de un área comercial con las siguientes características: <br>
 
 - Accesibilidad: 6 (buena) <br>
 - Costo de alquiler: 2500€ <br>
 - Tráfico: 7, se sitúa en buena zona comercial pero con competidores cercanos.
+- Visibilidad: 7 (buena)
+- Competencia: 5
  
 **Ubicación C**, se trata de una zona de oficinas, donde trabajan muchas personas, con las siguientes características: <br>
 
 - Accesibilidad: 4 (baja) <br>
 - Costo de alquiler: 2000€ <br>
 - Tráfico: 5, ya que el tráfico se desarrolla principalmente en el horario laboral.
+- Visibilidad: 6 (buena)
+- Competencia: 4
 
 **Ubicación D**, se trata de un área universitaria, con las siguientes características: <br>
 
 - Accesibilidad: 7 (buena) <br>
 - Costo de alquiler: 2700€ <br>
 - Tráfico: 8, ya que los estudiantes generan gran afluencia en horas de comida y tarde.
+- Visibilidad: 7 (buena)
+- Competencia: 6
 
 **Ubicación E**, se trata de una zona residencial de alto nivel económico, con las siguientes características: <br>
 
 - Accesibilidad: 9 (muy buena) <br>
 - Costo de alquiler: 3500€ <br>
 - Tráfico: 6, es una zona tranquila y con menor flujo peatonal.
+- Visibilidad: 9 (muy buena)
+- Competencia: 3
    
    
 Los pesos que la cadena de restaurantes establece a los criterios estudiados serían los siguientes:
@@ -65,10 +75,10 @@ $$
 \hline
 \text{} & \text{} & \text{Ubicación A} & \text{Ubicación B} & \text{Ubicación C} & \text{Ubicación D} & \text{Ubicación E} & \text{Tipo} & \text{q} & \text{p} & \text{s} \\
 \hline
-\text{Accesibilidad} & \text{Max} & 8 & 6 & 4 & 7& 9 & \text{I} & 1 & 1 & 2 \\
+\text{Accesibilidad} & \text{Max} & 8 & 6 & 4 & 7 & 9 & \text{I} & 1 & 1 & 2 \\
 \text{Costo de alquiler} & \text{Min} & 3000 & 2500 & 2000 & 2700 & 3500 & \text{V} & 0 & 2 & 4 \\
 \text{Tráfico} & \text{Max} & 9 & 7 & 5 & 8 & 6 & \text{II} & 1 & 1.5 & 3 \\
-\text{Visibilidad} & \text{Max} & 8 & 7 & 6 & 7 & 9 & \text{I} & 0.5 & 1.2 & 1 \\
+\text{Visibilidad} & \text{Max} & 8 & 7 & 6 & 7 & 9 & \text{I} & 1 & 1.2 & 1 \\
 \text{Competencia} & \text{Max} & 6 & 5 & 4 & 6 & 3 & \text{IV} & 1 & 0.8 & 3 \\
 \hline
 \end{array}
@@ -113,7 +123,7 @@ Introducimos la tabla de preferencias:
 tab.fpref = matrix(c(1,  1,   1,   2,
                      5,  0,   2,   4,
                      2,  1,   1.5, 3,
-                     1,  0.5, 1.2, 1,
+                     1,  1, 1.2, 1,
                      4,  1,   0.8, 3),
                    ncol = 4,byrow = T)
 colnames(tab.fpref) <- c("num.pref","qi","pi","si")
@@ -257,10 +267,330 @@ ________________________________________________________________________________
 
 ## Resolución con método AHP (mediante funciones R y librería AHP)
 <br>
-Para determinar la mejor ubicación, la cadena ha identificado las siguientes matrices de comparación por pares para cada criterio (accesibilidad, costo de alquiler, tráfico, visibilidad y competencia) para evaluar las ubicaciones A, B, C, D y E. También ha recogido sus prioridades en relación con los cinco criterios manejados.
+Para determinar la mejor ubicación, la cadena ha identificado las siguientes matrices de comparación por pares para cada criterio (accesibilidad, costo de alquiler, tráfico, visibilidad y competencia) para evaluar las ubicaciones A, B, C, D y E. 
+
+$$
+\begin{aligned}
+\begin{array}{c|ccc}
+\textbf{Accesibilidad} & \text{A} & \text{B} & \text{C} & \text{D} & \text{E} \\
+\hline
+\text{A} & 1 & \frac{8}{6} & \frac{8}{4} & \frac{8}{7} & \frac{8}{9} \\
+\text{B} & \frac{6}{8} & 1 & \frac{6}{4} & \frac{6}{7} & \frac{6}{9} \\
+\text{C} & \frac{4}{8} & \frac{4}{6} & 1 & \frac{4}{7} & \frac{4}{9}\\
+\text{D} & \frac{7}{8} & \frac{7}{6} & \frac{7}{4} & 1 & \frac{7}{9}\\
+\text{E} & \frac{9}{8} & \frac{9}{6} & \frac{9}{4} & \frac{9}{7} & 1\\
+\end{array}
+\quad &
+\begin{array}{c|ccc}
+\textbf{Costo alquiler} & \text{A} & \text{B} & \text{C} & \text{D} & \text{E} \\
+\hline
+\text{A} & 1 & \frac{3000}{2500} & \frac{3000}{2000} & \frac{3000}{2700} & \frac{3000}{3500} \\
+\text{B} & \frac{2500}{3000} & 1 & \frac{2500}{2000} & \frac{2500}{2700} & \frac{2500}{3500} \\
+\text{C} & \frac{2000}{3000} & \frac{2000}{2500} & 1 & \frac{2000}{2700} & \frac{2000}{3500}\\
+\text{D} & \frac{2700}{3000} & \frac{2700}{2500} & \frac{2700}{2000} & 1 & \frac{2700}{3500}\\
+\text{E} & \frac{3500}{3000} & \frac{3500}{2500} & \frac{3500}{2000} & \frac{3500}{2700} & 1\\
+\end{array}
+\quad &
+\begin{array}{c|ccc}
+\textbf{Tráfico} & \text{A} & \text{B} & \text{C} & \text{D} & \text{E} \\
+\hline
+\text{A} & 1 & \frac{9}{7} & \frac{9}{5} & \frac{9}{8} & \frac{9}{6} \\
+\text{B} & \frac{7}{9} & 1 & \frac{7}{5} & \frac{7}{8} & \frac{7}{6} \\
+\text{C} & \frac{5}{9} & \frac{5}{7} & 1 & \frac{5}{8} & \frac{5}{6}\\
+\text{D} & \frac{8}{9} & \frac{8}{7} & \frac{8}{5} & 1 & \frac{8}{6}\\
+\text{E} & \frac{6}{9} & \frac{6}{7} & \frac{6}{5} & \frac{6}{8} & 1\\
+\end{array}
+\end{aligned}
+$$
+<br>
+$$
+\begin{aligned}
+\begin{array}{c|ccc}
+\textbf{Visibilidad} & \text{A} & \text{B} & \text{C} & \text{D} & \text{E} \\
+\hline
+\text{A} & 1 & \frac{8}{7} & \frac{8}{6} & \frac{8}{7} & \frac{8}{9} \\
+\text{B} & \frac{7}{8} & 1 & \frac{7}{6} & 1 & \frac{7}{9} \\
+\text{C} & \frac{6}{8} & \frac{6}{7} & 1 & \frac{6}{7} & \frac{6}{9}\\
+\text{D} & \frac{7}{8} & 1 & \frac{7}{6} & 1 & \frac{7}{9}\\
+\text{E} & \frac{9}{8} & \frac{9}{7} & \frac{9}{6} & \frac{9}{7} & 1\\
+\end{array}
+\quad & \quad &
+\begin{array}{c|ccc}
+\textbf{Competencia} & \text{A} & \text{B} & \text{C} & \text{D} & \text{E} \\
+\hline
+\text{A} & 1 & \frac{6}{5} & \frac{6}{4} & 1 & \frac{6}{3} \\
+\text{B} & \frac{5}{6} & 1 & \frac{5}{4} & \frac{5}{6}  & \frac{5}{3} \\
+\text{C} & \frac{4}{6} & \frac{4}{5} & 1 & \frac{4}{6} & \frac{4}{3}\\
+\text{D} & 1 & \frac{6}{5} & \frac{6}{4} & 1 & \frac{6}{3}\\
+\text{E} & \frac{3}{6} & \frac{3}{5} & \frac{3}{4} & \frac{3}{6} & 1\\
+\end{array}
+\end{aligned}
+$$
+<br> 
+
+También ha recogido sus prioridades en relación con los cinco criterios manejados.
+
+$$
+\begin{array}{c|ccc}
+\  & \text{Accesibilidad} & \text{Costo alquiler} & \text{Tráfico} & \text{Visibilidad} & \text{Competencia} \\
+\hline
+\text{Accesibilidad} & 1 & \frac{1}{2} & \frac{1}{1.5} & \frac{1}{1.2} & \frac{1}{0.8} \\
+\text{Costo alquiler} & 2 & 1 & \frac{2}{1.5} & \frac{2}{1.2} & \frac{2}{0.8} \\
+\text{Tráfico} & 1.5 & \frac{1.5}{2} & 1 & \frac{1.5}{1.2} & \frac{1.5}{0.8} \\
+\text{Visibilidad} & 1.2 & \frac{1.2}{2} & \frac{1.2}{1.5} & 1 & \frac{1.2}{0.8} \\
+\text{Competencia} & 0.8 & \frac{0.8}{2} & \frac{0.8}{1.5} & \frac{0.8}{1.2} & 1 \\
+\end{array}
+$$
 
 <br>
 
+A partir de estos datos se pide:
+
+(a) Identificar el diagrama de jerarquías de este problema de decisión.
+(b) Calcular las ponderaciones asociadas a cada criterio manejado.
+(c) Calcular las ponderaciones de las cinco alternativas en función de cada criterio.
+(d) Verificar la consistencia de las preferencias de la cadena de restaurantes.
+(e) Determinar la prioridad global de cada ubicación.
+
+<br>
+
+### Con funciones R
+
+Empiezo creando las matrices anteriores para poder trabajar.
+
+**Matriz de criterios**
+```{r}
+nombre.criterios <-c("Accesibilidad","Costo alquiler","Tráfico","Visibilidad","Competencia")
+Xmat.criterios= multicriterio.crea.matrizvaloraciones(c(1,1/2,1/1.5,1/1.2,1/0.8,
+                                                        2,1,2/1.5,2/1.2,2/0.8,
+                                                        1.5,1.5/2,1,1.5/1.2,2/0.8,
+                                                        1.2,1.2/2,1.2/1.5,1,1.2/0.8,
+                                                        0.8,0.8/2,0.8/1.5,0.8/1.2,1),
+                                                      numalternativas = 5, 
+                                                      v.nombres.alternativas = nombre.criterios)
+Xmat.criterios
+```
+
+**Matriz Alternativas/Criterios** <br>
+
+- **Accesibilidad**
+```{r}
+nombre.alternativas <- c("Ubicación A","Ubicación B","Ubicación C","Ubicación D","Ubicación E")
+Xmat.accesibilidad = multicriterio.crea.matrizvaloraciones(c(1,8/6,8/4,8/7,8/9,
+                                                             6/8,1,6/4,6/7,6/9,
+                                                             4/8,4/6,1,4/7,4/9,
+                                                             7/8,7/6,7/4,1,7/9,
+                                                             9/8,9/6,9/4,9/7,1),
+                                                           numalternativas = 5,
+                                                           nombre.alternativas)
+Xmat.accesibilidad
+```
+- **Costo de alquiler**
+```{r}
+nombre.alternativas <- c("Ubicación A","Ubicación B","Ubicación C","Ubicación D","Ubicación E")
+Xmat.costoAlquiler = multicriterio.crea.matrizvaloraciones(c(1,3000/2500,3000/2000,3000/2700,3000/3500,
+                                                             2500/3000,1,2500/2000,2500/2700,2500/3500,
+                                                             2000/3000,2000/2500,1,2000/2700,2000/3500,
+                                                             2700/3000,2700/2500,2700/2000,1,2700/3500,
+                                                             3500/3000,3500/2500,3500/2000,3500/2700,1),
+                                                           numalternativas = 5,
+                                                           nombre.alternativas)
+Xmat.costoAlquiler
+```
+- **Tráfico**
+```{r}
+nombre.alternativas <- c("Ubicación A","Ubicación B","Ubicación C","Ubicación D","Ubicación E")
+Xmat.trafico = multicriterio.crea.matrizvaloraciones(c(1,9/7,9/5,9/8,9/6,
+                                                             7/9,1,7/5,7/8,7/6,
+                                                             5/9,5/7,1,5/8,5/6,
+                                                             8/9,8/7,8/5,1,8/6,
+                                                             6/9,6/7,6/5,6/8,1),
+                                                           numalternativas = 5,
+                                                           nombre.alternativas)
+Xmat.trafico
+```
+- **Visibilidad**
+```{r}
+nombre.alternativas <- c("Ubicación A","Ubicación B","Ubicación C","Ubicación D","Ubicación E")
+Xmat.visibilidad = multicriterio.crea.matrizvaloraciones(c(1,8/7,8/6,8/7,8/9,
+                                                             7/8,1,7/6,1,7/9,
+                                                             6/8,6/7,1,6/7,6/9,
+                                                             7/8,1,7/6,1,7/9,
+                                                             9/8,9/7,9/6,9/7,1),
+                                                           numalternativas = 5,
+                                                           nombre.alternativas)
+Xmat.visibilidad
+```
+- **Competencia**
+```{r}
+nombre.alternativas <- c("Ubicación A","Ubicación B","Ubicación C","Ubicación D","Ubicación E")
+Xmat.competencia = multicriterio.crea.matrizvaloraciones(c(1,6/5,6/4,1,6/3,
+                                                           5/6,1,5/4,5/6,5/3,
+                                                           4/6,4/5,1,4/6,4/3,
+                                                           1,6/5,6/4,1,6/3,
+                                                           3/6,3/5,3/4,3/6,1),
+                                                           numalternativas = 5,
+                                                           nombre.alternativas)
+Xmat.competencia
+```
+
+<br>
+
+#### (a) Identificar el diagrama de jerarquías de este problema de decisión.
+```{r}
+num.alt=5
+num.cri=5
+Xmatriznivel2 = array(NA,dim=c(num.alt,num.alt,num.cri))
+Xmatriznivel2[,,1] = Xmat.accesibilidad
+Xmatriznivel2[,,2] = Xmat.costoAlquiler
+Xmatriznivel2[,,3] = Xmat.trafico
+Xmatriznivel2[,,4] = Xmat.visibilidad
+Xmatriznivel2[,,5] = Xmat.competencia
+dimnames(Xmatriznivel2)[[1]] = nombre.alternativas
+dimnames(Xmatriznivel2)[[2]] = nombre.alternativas
+dimnames(Xmatriznivel2)[[3]] = nombre.criterios
+multicriterio.metodoahp.diagrama(Xmat.criterios,Xmatriznivel2)
+```
+
+En esta estructura jerárquica podemos ver claramente tres niveles: el primero define el objetivo principal del problema, el segundo nivel son los correspondientes a los criterios donde se reflejan los pesos de cada uno de ellos y el último nivel son las alternativas junto con sus pesos. <br>
+Se puede decir que la mejor alternativa sería la ubicación A con un peso de 0.2339 y la peor es la ubicación C con un peso de 0.1464. 
+
+<br>
+
+#### (b) Calcular las ponderaciones asociadas a cada criterio manejado.
+```{r}
+pesos.criterios = multicriterio.metodoAHP.variante3.basico(Xmat.criterios)
+pesos.criterios$valoraciones.ahp
+# Pesos ordenados
+pesos.criterios$valoraciones.ahp.ordenadas
+```
+**CONCLUSIÓN:** vemos que el costo de alquiler es el criterio más importante para seleccionar la ubicación del nuevo restaurante con una ponderación de 0.3032967 (30,32%), luego es el criterio que tiene más peso en la decisión final seguido del tráfico con una ponderación de 0.2417582 (24,17%). El criterio con menor peso es la competencia con una ponderación de 0.1213187 (12,13%), lo que indica que es el criterio menos importante para la decisión final. <br>
+
+<br>
+
+#### (c) Calcular las ponderaciones de las cinco alternativas en función de cada criterio. 
+Los pesos locales son:
+
+- Accesibilidad
+```{r}
+pesos.accesibilidad = multicriterio.metodoAHP.variante3.basico(Xmat.accesibilidad)
+pesos.accesibilidad$valoraciones.ahp
+pesos.accesibilidad$valoraciones.ahp.ordenadas
+```
+**CONCLUSIÓN:** podemos ver que para el criterio de accesibilidad, la ubicación E es la alternativa más favorable ya que es la que presenta mayor peso (0.2647059) entre las demás. <br>
+
+- Costo de alquiler
+```{r}
+pesos.costoAlquiler = multicriterio.metodoAHP.variante3.basico(Xmat.costoAlquiler)
+pesos.costoAlquiler$valoraciones.ahp
+pesos.costoAlquiler$valoraciones.ahp.ordenadas
+```
+**CONCLUSIÓN:** podemos ver que para el criterio de accesibilidad, la ubicación E es la alternativa más favorable ya que es la que presenta mayor peso (0.2554745) entre las demás. <br>
+
+- Tráfico
+```{r}
+pesos.trafico = multicriterio.metodoAHP.variante3.basico(Xmat.trafico)
+pesos.trafico$valoraciones.ahp
+pesos.trafico$valoraciones.ahp.ordenadas
+```
+**CONCLUSIÓN:** podemos ver que para el criterio de tráfico, la ubicación A es la alternativa más favorable ya que es la que presenta mayor peso (0.2571429) entre las demás. <br>
+
+- Visibilidad
+```{r}
+pesos.visibilidad = multicriterio.metodoAHP.variante3.basico(Xmat.visibilidad)
+pesos.visibilidad$valoraciones.ahp
+pesos.visibilidad$valoraciones.ahp.ordenadas
+```
+**CONCLUSIÓN:** podemos ver que para el criterio de visibilidad, la ubicación E es la alternativa más favorable ya que es la que presenta mayor peso (0.2432432) entre las demás. <br>
+
+- Competencia
+```{r}
+pesos.competencia = multicriterio.metodoAHP.variante3.basico(Xmat.competencia)
+pesos.competencia$valoraciones.ahp
+pesos.competencia$valoraciones.ahp.ordenadas
+```
+**CONCLUSIÓN:** podemos ver que para el criterio de competencia, la ubicación A es la alternativa más favorable ya que es la que presenta mayor peso (0.2500000) entre las demás. <br>
+
+<br>
+
+#### (d) Verificar la consistencia de las preferencias de la cadena de restaurantes. 
+
+- Consistencia de los criterios:
+```{r}
+multicriterio.metodoAHP.coef.inconsistencia(Xmat.criterios)
+```
+Tenemos una consistencia aceptable, luego las preferencias expresadas en la matriz de comparación de criterios con consistentes.
+
+- Consistencia de la accesibilidad:
+```{r}
+multicriterio.metodoAHP.coef.inconsistencia(Xmat.accesibilidad)
+```
+Resulta una consistencia aceptable
+
+- Consistencia del costo de alquiler:
+```{r}
+multicriterio.metodoAHP.coef.inconsistencia(Xmat.costoAlquiler)
+```
+Resulta una consistencia aceptable
+
+- Consistencia del tráfico
+```{r}
+multicriterio.metodoAHP.coef.inconsistencia(Xmat.trafico)
+```
+Resulta una consistencia aceptable
+
+- Consistencia de la visibilidad
+```{r}
+multicriterio.metodoAHP.coef.inconsistencia(Xmat.visibilidad)
+```
+Resulta una consistencia aceptable
+
+- Consistencia de la competencia
+```{r}
+multicriterio.metodoAHP.coef.inconsistencia(Xmat.competencia)
+```
+Resulta una consistencia aceptable
+
+<br>
+
+#### (e) Determinar la prioridad global de cada ubicación
+
+Los pesos globales son:
+```{r}
+tabla.pesosglobales.ahp = multicriterio.metodoAHP.pesosglobales_entabla(
+  pesos.criterios$valoraciones.ahp,
+  rbind(pesos.accesibilidad$valoraciones.ahp,
+        pesos.costoAlquiler$valoraciones.ahp,
+        pesos.trafico$valoraciones.ahp,
+        pesos.visibilidad$valoraciones.ahp,
+        pesos.competencia$valoraciones.ahp))
+knitr::kable(tabla.pesosglobales.ahp)
+```
+Expresada en porcentajes:
+```{r}
+knitr::kable(tabla.pesosglobales.ahp*100,digits = 2)
+```
+Los pesos de las ramas son:
+```{r}
+vPn1 = tabla.pesosglobales.ahp[6,1:5]
+mPn2 = tabla.pesosglobales.ahp[1:5,1:5]
+mPondRamasb = mPn2*matrix(vPn1,ncol=5,nrow=5,byrow = T)
+mPondRamas = tabla.pesosglobales.ahp
+mPondRamas[1:5,1:5] = mPondRamasb
+mPondRamas[6,6] = 1
+knitr::kable(mPondRamas)
+```
+Expresados en porcentajes:
+```{r}
+knitr::kable(mPondRamas*100,digits = 2)
+```
+
+**CONCLUSIÓN:** finalmente se puede decir que la ubicación A, una zona céntrica de la ciudad, es la mejor opción para abrir el nuevo restaurante, con una ponderación global de 0.2339400 (23,39%). Esto indica que, a partir de los criterios evaluados (accesibilidad, costo de alquiler, tráfico, visibilidad y competencia), esta ubicación es la que mejor cumple con los requisitos de la cadena en comparación con las demás alternativas que poseen ponderaciones globales más bajas. La peor alternativa para el nuevo restaurante sería la ubicación C, la zona de oficinas, con una ponderación global de 0.1463845 (14,64%).
+
+<br>
+<br>
+
+### Resolución con método AHP mediante la librería AHP
 
 
 
