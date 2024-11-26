@@ -140,7 +140,8 @@ qgraph::qgraph(tab.Pthee.i$tablarelacionsupera)
 ```
 <br>
 
-**CONCLUSIÓN:** en base a estos resultados podemos decir que la ubicación A es la mejor opción para el nuevo restaurante ya que es la que tiene el mayor flujo de entrada (2.261538), lo que indica que es la más preferida en comparación con el resto. Además, gráficamente, domina respecto a las demás ubicaciones porque es el nodo que tiene más flechas salientes. Por el contrario, la ubicación C es la peor alternativa con un flujo de entrada de 1.230769 y es el nodo al que llegan todas las flechas.
+**CONCLUSIÓN:** Para el método Promethee I, la ubicación A supera al resto de alternativas completamente (1.0) y además, vemos claramente en el gráfico, que es el nodo del que salen todas las flechas. La ubicación B supera a las ubicaciones C y E. La ubicación C no supera a ninguna otra ubicación. La ubicación D supera completamente a B y E, y por último, la ubicación E sólo supera a C, observándose que gráficamente es el nodo al que le llegan las flechas de todas las alternativas. <br>
+Como conclusión podemos decir que la ubicación A parece ser la más fuerte porque es la que supera completamente a todas las demás y C la más débil.
 
 
 Para llegar a una visión más clara aplicamos **Promethee II**.
@@ -173,7 +174,7 @@ qgraph::qgraph(tab.Pthee.i_medias$tablarelacionsupera)
 ```
 <br>
 
-**CONCLUSIÓN:** se observa que la ubicación A sigue siendo es la mejor opción, ya que es la que tiene mayor flujo de entrada (0.5653846) y además gráficamente domina en comparación con las demás ubicaciones. La ubicación D posee un valor de flujo entrante cercano al de A pero se mantiene por debajo con un valor de 0.4538462. Por el contrario, la ubicación C es la peor alternativa con un flujo de entrada de 0.3076923. 
+**CONCLUSIÓN:** se observa que la ubicación A sigue siendo es la opción más fuerte, ya que es la que domina a todas las demás y además gráficamente se ve claramente cómo domina en comparación con las demás ubicaciones. La ubicación C es la alternativa más débil ya que no supera a ninguna otra. 
 
 Con el método **Promethee II con medias**.
 ```{r}
@@ -188,7 +189,7 @@ La ordenación final de las alternativas según el método Promethee II con medi
 ```{r}
 order(tab.Pthee.ii_medias$vflujos.netos,decreasing = T)
 ```
-Los resultados coinciden con el método Promethee II analizado antes, la cadena deberá elegir la ubicación A, una zona céntrica de Sevilla, para abrir su nuevo restaurante. Esta alternativa es la que presenta mayor flujo neto, un valor de 0.25000000, en comparación con las demás.
+Los resultados coinciden con el método Promethee II analizado antes, la cadena deberá elegir la ubicación A, una zona céntrica de Sevilla, para abrir su nuevo restaurante. Esta alternativa es la que domina a todas las demás y presenta el mayor flujo neto, un valor de 0.25000000.
 
 <br>
 
@@ -354,7 +355,6 @@ A partir de estos datos se pide:
 
 <br>
 
-### Con funciones R
 
 Empiezo creando las matrices anteriores para poder trabajar.
 
@@ -435,6 +435,8 @@ Xmat.competencia
 ```
 
 <br>
+
+### Con funciones R
 
 #### (a) Identificar el diagrama de jerarquías de este problema de decisión.
 ```{r}
@@ -525,31 +527,31 @@ Tenemos una consistencia aceptable, luego las preferencias expresadas en la matr
 ```{r}
 multicriterio.metodoAHP.coef.inconsistencia(Xmat.accesibilidad)
 ```
-Resulta una consistencia aceptable
+Resulta una consistencia aceptable.
 
 - Consistencia del costo de alquiler:
 ```{r}
 multicriterio.metodoAHP.coef.inconsistencia(Xmat.costoAlquiler)
 ```
-Resulta una consistencia aceptable
+Resulta una consistencia aceptable.
 
 - Consistencia del tráfico
 ```{r}
 multicriterio.metodoAHP.coef.inconsistencia(Xmat.trafico)
 ```
-Resulta una consistencia aceptable
+Resulta una consistencia aceptable.
 
 - Consistencia de la visibilidad
 ```{r}
 multicriterio.metodoAHP.coef.inconsistencia(Xmat.visibilidad)
 ```
-Resulta una consistencia aceptable
+Resulta una consistencia aceptable.
 
 - Consistencia de la competencia
 ```{r}
 multicriterio.metodoAHP.coef.inconsistencia(Xmat.competencia)
 ```
-Resulta una consistencia aceptable
+Resulta una consistencia aceptable.
 
 <br>
 
@@ -590,7 +592,63 @@ knitr::kable(mPondRamas*100,digits = 2)
 <br>
 <br>
 
-### Resolución con método AHP mediante la librería AHP
+### Mediante la librería AHP
+
+Los datos están recogidos en el archivo llamado "problema.ahp". Lo cargamos:
+```{r}
+library(ahp)
+ahp_problema = ahp::Load("problema.ahp")
+ahp_problema
+```
+
+<br>
+
+#### (a) Identificar el diagrama de jerarquías de este problema de decisión.
+```{r}
+Visualize(ahp_problema)
+```
+
+<br>
+
+#### (b) Calcular las ponderaciones asociadas a cada criterio manejado. <br>
+#### (c) Calcular las ponderaciones de las cinco alternativas en función de cada criterio. <br>
+#### (d) Verificar la consistencia de las preferencias de la cadena de restaurantes.
+```{r}
+Calculate(ahp_problema)
+print(ahp_problema, priority = function(x) x$parent$priority["Total", x$name])
+```
+Lo analizamos:
+```{r}
+Analyze(ahp_problema,variable="priority")
+```
+**CONCLUSIÓN:** en cuanto a los criterios podemos decir que el más importante para la cadena de restaurantes es el costo de alquiler con un 30.8%, seguido del tráfico (23.1%) y siendo la competencia el criterio con menor importancia en la decisión final (12.3%).
+
+Si nos centramos en cada uno de los criterios por separados, observamos un desglose porcentual de preferencia para las alternativas. Por ejemplo, para el criterio "CostoAlquiler", la ubicación E es la que mayor peso tiene con un porcentaje de 25.5% mientras que la ubicación con menor peso es la C (14.6%). Para el criterio "Tráfico", la mejor alternativa es la ubicación A (25.7%) y la peor vuelve a ser la ubicación C.
+
+La inconsistencia en todas las comparaciones es de 0.0%, lo que indica que las evaluaciones realizadas son perfectamente consistentes según los principios del AHP.  
+
+<br>
+
+#### (e) Determinar la prioridad global de cada ubicación
+```{r}
+Analyze(ahp_problema)
+```
+Analizamos con la tabla mejorada: 
+```{r}
+aa= AnalyzeTable(ahp_problema)
+formattable::as.htmlwidget(aa)
+aab=AnalyzeTable(ahp_problema,variable="priority")
+formattable::as.htmlwidget(aab)
+```
+**CONCLUSIÓN:** podemos concluir diciendo que la ubicación A, una zona céntrica de la ciudad, con una prioridad global de 23.4%, es la mejor alternativa combinando los cinco criterios evaluados por la cadena de restaurante, especialmente en tráfico y competencia que son los criterios que presentan mayores pesos en dicha ubicación. Seguida de la ubicación A tenemos a ubicación E, que presenta la segunda prioridad global más alta de 21.9% donde el criterio de accesibilidad es el que proporciona mayor peso es dicha ubicación. <br> 
+Se puede decir que la peor de las alternativas barajadas por la cadena es la ubicación C con el menor peso global de 14.6%.
 
 
+<br>
 
+________________________________________________________________________________
+
+<br>
+
+## CONCLUSIONES FINALES
+<br>
