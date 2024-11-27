@@ -640,8 +640,8 @@ formattable::as.htmlwidget(aa)
 aab=AnalyzeTable(ahp_problema,variable="priority")
 formattable::as.htmlwidget(aab)
 ```
-**CONCLUSIÓN:** podemos concluir diciendo que la ubicación A, una zona céntrica de la ciudad, con una prioridad global de 23.4%, es la mejor alternativa combinando los cinco criterios evaluados por la cadena de restaurante, especialmente en tráfico y competencia que son los criterios que presentan mayores pesos en dicha ubicación. Seguida de la ubicación A tenemos a ubicación E, que presenta la segunda prioridad global más alta de 21.9% donde el criterio de accesibilidad es el que proporciona mayor peso es dicha ubicación. <br> 
-Se puede decir que la peor de las alternativas barajadas por la cadena es la ubicación C con el menor peso global de 14.6%.
+**CONCLUSIÓN:** podemos concluir diciendo que la ubicación A, una zona céntrica de la ciudad, es la mejor alternativa combinando los cinco criterios evaluados para la cadena de restaurantes, con una prioridad global de 23.4%. Esto se debe principalmente a su buen desempeño en los criterios de tráfico (25,7%, la mejor puntuación) y competencia (25.0%). La segunda mejor opción es la ubicación E, que presenta la segunda prioridad global más alta de 21.9%, destacándose en el criterio de accesibilidad con un 26.5%. <br>
+Se puede decir que la peor de las alternativas barajadas por la cadena es la ubicación C con el menor peso global de 14.6%, debido a su bajo rendimiento en la mayoría de los criterios evaluados.
 
 
 <br>
@@ -652,3 +652,11 @@ ________________________________________________________________________________
 
 ## CONCLUSIONES FINALES
 <br>
+
+El objetivo de este problema ha sido elegir una de las cinco ubicaciones presentadas y evaluadas por un total de cinco criterios que toman más o menos importancia en la decisión final. Se ha demostrado que el costo de alquiler ha sido el criterio con más peso, por lo que es considerado el criterio más importante en la toma de la decisión, seguido del tráfico y siendo la competencia el menos relevante de todos. 
+
+Tras haber estudiado la situación por tres métodos distintos (Promethee, Electre y AHP), podemos ver que todas las conclusiones coinciden en que la mejor alternativa es la ubicación A, luego la decisión final de la cadena será abrir el nuevo restaurante en una zona céntrica de la ciudad de Sevilla.
+
+Podría haber pasado que algún método resultara una ubicación distinta. Esto se debe a que según el método que usemos para resolver un mismo problema de decisión multicriterio, con las mismas alternativas y criterios, los resultados pueden variar debido a la funcionalidad de cada uno de ellos.
+
+
