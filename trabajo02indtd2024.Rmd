@@ -1,7 +1,9 @@
 ---
 title: "Trabajo02 - Teoría de la Decisión"
 author: "Paula Mª Galindo Casas"
-output: html_document
+output:
+  html_document:
+    toc: true
 ---
 
 ```{r setup, include=FALSE}
@@ -10,7 +12,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 <br>
 
-### TEMA: "Elección de la ubicación para abrir un nuevo restaurante"
+## **<u>Elección de la ubicación para abrir un nuevo restaurante</u>**
 
 Una cadena de restaurantes está planeando expandir su negocio en la ciudad de Sevilla. Después de analizar varias zonas, la empresa ha seleccionado cinco ubicaciones donde podría abrir su próximo local. Sin embargo, cada una de estas ubicaciones presenta ventajas y desventajas en diferentes aspectos, por lo que la cadena desea tomar una decisión final basada en cinco criterios principales: facilidad en la accesibilidad para los clientes (puntuándose del 1 al 10, siendo 10 una accesibilidad excelente), costo mensual (en €) de alquiler del nuevo local, el tráfico de personas en la ubicación (puntuándose del 1 al 10, donde 10 representa el tráfico más alto de clientes), la visibilidad del local en avenidas principales o zonas concurridas (que se mide del 1 al 10, siendo 10 la mejor visibilidad) y la competencia en la zona con otros restaurantes (medida del 1 al 10, siendo 1 la máxima competencia).
 
@@ -65,7 +67,7 @@ Los pesos que la cadena de restaurantes establece a los criterios estudiados ser
 - **Visibilidad:** 1.2, es importante que se sitúe en una zona visible para el público.
 - **Competencia:** 0.8, no es el factor más importante para la cadena de restaurantes.
 
-Para la decisión final es importante maximizar la accesibilidad, el tráfico de clientes, la visibilidad y competencia mientras que el costo de alquiler debe ser mínimo. Por tanto, para recopilar toda esta información, se muestra la siguiente tabla con las valoraciones de las alternativas para cada criterio, junto con los correspondientes parámetros para desarrollar el problema.
+Para la decisión final es importante maximizar la accesibilidad, el tráfico de clientes, la visibilidad y competencia mientras que el costo de alquiler debe ser mínimo. Para recopilar toda esta información, se muestra la siguiente tabla con las valoraciones de las alternativas en cada criterio y los correspondientes parámetros para desarrollar el problema.
  
 $$
 \begin{array}{|c|c|ccccc|cccc|}
@@ -84,7 +86,7 @@ $$
 \end{array}
 $$
 <br>
-Resuelve este problema mediante los métodos Promethee (aplicando también los de medias y Windows), Electre (iniciando el proceso con un α = 0.7 y d = (∞,∞,∞,∞,∞)) y AHP (con funciones R y con ayuda de la librería AHP)
+Resuelve este problema mediante los métodos Promethee (aplicando también los de medias y Windows), Electre (iniciando el proceso con un α = 0.7 y d = (∞,∞,∞,∞,∞)) y AHP (con funciones R y con ayuda de la librería AHP).
 
 <br>
 
@@ -93,7 +95,7 @@ ________________________________________________________________________________
 <br>
 
 Antes de empezar, importamos los scripts R donde se cargarán todas las funciones que necesitaremos para resolver el problema:
-```{r}
+```{r warning=FALSE}
 source("teoriadecision_funciones_multicriterio.R")
 source("teoriadecision_funciones_multicriterio_diagram.R")
 source("teoriadecision_funciones_multicriterio_utiles.R")
@@ -101,7 +103,7 @@ source("teoriadecision_funciones_multicriterio_utiles.R")
 
 <br><br>
 
-## Resolución con método Promethee (medias y Windows)
+## **Resolución con método Promethee (medias y Windows)**
 <br>
 Creamos la matriz de decisión teniendo en cuenta los criterios de maximizar o minimizar. En este último caso, los valores serán negativos.
 ```{r}
@@ -120,18 +122,19 @@ matrizDecision
 
 Introducimos la tabla de preferencias:
 ```{r}
-tab.fpref = matrix(c(1,  1,   1,   2,
-                     5,  0,   2,   4,
-                     2,  1,   1.5, 3,
-                     1,  1, 1.2, 1,
-                     4,  1,   0.8, 3),
+tab.fpref = matrix(c(1,  1,  1,   2,
+                     5,  0,  2,   4,
+                     2,  1,  1.5, 3,
+                     1,  1,  1.2, 1,
+                     4,  1,  0.8, 3),
                    ncol = 4,byrow = T)
 colnames(tab.fpref) <- c("num.pref","qi","pi","si")
 tab.fpref
 ```
+<br>
 
 Ahora ya podemos aplicar el método **Promethee I**.
-```{r}
+```{r warning=FALSE}
 tab.Pthee.i <- multicriterio.metodo.promethee_i(matrizDecision, 
                                                 pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
                                                 tab.fpref = tab.fpref)
@@ -140,12 +143,12 @@ qgraph::qgraph(tab.Pthee.i$tablarelacionsupera)
 ```
 <br>
 
-**CONCLUSIÓN:** Para el método Promethee I, la ubicación A supera al resto de alternativas completamente (1.0) y además, vemos claramente en el gráfico, que es el nodo del que salen todas las flechas. La ubicación B supera a las ubicaciones C y E. La ubicación C no supera a ninguna otra ubicación. La ubicación D supera completamente a B y E, y por último, la ubicación E sólo supera a C, observándose que gráficamente es el nodo al que le llegan las flechas de todas las alternativas. <br>
+**CONCLUSIÓN:** Para el método Promethee I, la ubicación A supera al resto de alternativas completamente (1.0) y además, vemos claramente en el gráfico, que es el nodo del que salen todas las flechas. La ubicación B supera a las ubicaciones C y E. La ubicación C no supera a ninguna otra ubicación. La ubicación D supera completamente a B, C y E, y por último, la ubicación E sólo supera a C, observándose gráficamente el nodo de C es al que le llegan las flechas de todas las alternativas. <br>
 Como conclusión podemos decir que la ubicación A parece ser la más fuerte porque es la que supera completamente a todas las demás y C la más débil.
 
 
 Para llegar a una visión más clara aplicamos **Promethee II**.
-```{r}
+```{r warning=FALSE}
 tab.Pthee.ii <- multicriterio.metodo.promethee_ii(matrizDecision, 
                                                   pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
                                                   tab.fpref = tab.fpref)
@@ -154,7 +157,7 @@ qgraph::qgraph(tab.Pthee.ii$tablarelacionsupera)
 ```
 <br>
 
-**CONCLUSIÓN:** dados los flujos netos (diferencia entre el flujo de entrada y de salida) se muestra claramente que la mejor alternativa es la ubicación A, que tiene el valor de flujo neto más alto (1.0000000) y domina a las otras ubicaciones. La ubicación D es preferida sobre B pero no tanto como A ya que tiene un flujo neto más bajo con valor de 0.5230769. La peor alternativa, sin duda, será la ubicación C que posee un flujo neto negativo, de -1.0615385, indicando que es desfavorecida en comparación con las restantes.
+**CONCLUSIÓN:** dados los flujos netos (diferencia entre el flujo de entrada y de salida) se muestra claramente que la mejor alternativa es la ubicación A, que tiene el valor de flujo neto más alto (1.0000000) y domina a las otras ubicaciones. La ubicación D es preferida sobre B pero no tanto como A, ya que tiene un flujo neto más bajo con valor de 0.5230769. La peor alternativa, sin duda, será la ubicación C que posee un flujo neto negativo, de -1.0615385, indicando que es desfavorecida en comparación con las restantes.
 
 La ordenación final de las alternativas según el método Promethee II será:
 ```{r Order}
@@ -164,8 +167,8 @@ Finalmente podemos decir que la mejor decisión para la cadena será abrir el nu
 
 <br>
 
-Ahora lo analizamos mediante el **método Promethee I con medias**.
-```{r}
+Ahora lo analizamos mediante el método **Promethee I medias**.
+```{r warning=FALSE}
 tab.Pthee.i_medias <- multicriterio.metodo.promethee_i_med(matrizDecision,
                                                            pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
                                                            tab.fpref = tab.fpref)
@@ -174,10 +177,10 @@ qgraph::qgraph(tab.Pthee.i_medias$tablarelacionsupera)
 ```
 <br>
 
-**CONCLUSIÓN:** se observa que la ubicación A sigue siendo es la opción más fuerte, ya que es la que domina a todas las demás y además gráficamente se ve claramente cómo domina en comparación con las demás ubicaciones. La ubicación C es la alternativa más débil ya que no supera a ninguna otra. 
+**CONCLUSIÓN:** se observa que la ubicación A sigue siendo es la opción más fuerte, ya que es la que domina a todas las demás y además gráficamente se ve claramente cómo domina en comparación con las restantes. La ubicación C es la alternativa más débil ya que no supera a ninguna otra. 
 
-Con el método **Promethee II con medias**.
-```{r}
+Con el método **Promethee II medias**.
+```{r warning=FALSE}
 tab.Pthee.ii_medias <- multicriterio.metodo.promethee_ii_med(matrizDecision,
                                                              pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
                                                              tab.fpref = tab.fpref)
@@ -185,7 +188,7 @@ tab.Pthee.ii_medias
 qgraph::qgraph(tab.Pthee.ii_medias$tablarelacionsupera)
 ```
 
-La ordenación final de las alternativas según el método Promethee II con medias será:
+La ordenación final de las alternativas según el método Promethee II medias será:
 ```{r}
 order(tab.Pthee.ii_medias$vflujos.netos,decreasing = T)
 ```
@@ -213,7 +216,7 @@ tabla_res$tabAcciones
 ```
 <br>
 
-**CONCLUSIÓN:** de igual manera que concluimos en los métodos Promethee anteriores, podemos decir que la mejor alternativa que puede tomar la cadena para abrir un nuevo restaurante será la ubicación A, una zona de oficinas, seguida de la ubicación D, B, E y quedando como peor alternativa la ubicación C.
+**CONCLUSIÓN:** de igual manera que concluimos en los métodos Promethee anteriores, podemos decir que la mejor alternativa que puede tomar la cadena para abrir un nuevo restaurante será la ubicación A, una zona de oficinas, seguida de la ubicación D, B, E y quedando como peor alternativa la ubicación C, una zona de oficinas.
 
 
 <br>
@@ -222,7 +225,7 @@ ________________________________________________________________________________
 
 <br>
 
-## Resolución con método Electre
+## **Resolución con método Electre**
 <br>
 Partiendo de la matriz de decisión creada al principio donde los criterios de minimizar son valores negativos y los de maximizar son positivos, resolvemos el problema mediante el método Electre.
 
@@ -233,7 +236,7 @@ matrizDecision
 <br>
 
 Comenzamos el proceso con un valor α = 0.7 y d = (∞,∞,∞,∞,∞).
-```{r}
+```{r warning=FALSE}
 solElectre_1 <- multicriterio.metodoELECTRE_I(matrizDecision,
                                       pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
                                       nivel.concordancia.minimo.alpha = 0.7,
@@ -245,8 +248,8 @@ solElectre_1$nucleo_aprox
 ```
 <br>
 **CONCLUSIÓN:** en el núcleo aproximado se encuentran todas las ubicaciones. Por lo tanto volvemos a repetir el método para un valor más bajo del índice de concordancia mínimo. Probamos con α = 0.65 manteniendo las mismas alternativas.
-
-```{r}
+<br>
+```{r warning=FALSE}
 solElectre_2 <- multicriterio.metodoELECTRE_I(matrizDecision,
                                       pesos.criterios = tab.fpref[,3]/sum(tab.fpref[,3]),
                                       nivel.concordancia.minimo.alpha = 0.65,
@@ -257,7 +260,7 @@ qgraph::qgraph(solElectre_2$relacion.dominante)
 solElectre_2$nucleo_aprox
 ```
 <br>
-**CONCLUSIÓN:** hemos conseguido reducir el núcleo aproximado a una sola alternativa que es la ubicación A. Por tanto podemos decir que la mejor decisión que puede tomar la cadena para abrir el nuevo restaurante es la ubicación A, una zona céntrica de la ciudad.
+**CONCLUSIÓN:** para un valor α = 0.65 hemos conseguido reducir el núcleo aproximado a una sola alternativa que se trata de la ubicación A. Por tanto podemos decir que la mejor decisión que puede tomar la cadena para abrir el nuevo restaurante es la ubicación A, una zona céntrica de la ciudad.
 
 
 <br>
@@ -266,7 +269,7 @@ ________________________________________________________________________________
 
 <br>
 
-## Resolución con método AHP (mediante funciones R y librería AHP)
+## **Resolución con método AHP**
 <br>
 Para determinar la mejor ubicación, la cadena ha identificado las siguientes matrices de comparación por pares para cada criterio (accesibilidad, costo de alquiler, tráfico, visibilidad y competencia) para evaluar las ubicaciones A, B, C, D y E. 
 
@@ -333,13 +336,13 @@ También ha recogido sus prioridades en relación con los cinco criterios maneja
 
 $$
 \begin{array}{c|ccc}
-\  & \text{Accesibilidad} & \text{Costo alquiler} & \text{Tráfico} & \text{Visibilidad} & \text{Competencia} \\
+\  & \textbf{Accesibilidad} & \textbf{Costo alquiler} & \textbf{Tráfico} & \textbf{Visibilidad} & \textbf{Competencia} \\
 \hline
-\text{Accesibilidad} & 1 & \frac{1}{2} & \frac{1}{1.5} & \frac{1}{1.2} & \frac{1}{0.8} \\
-\text{Costo alquiler} & 2 & 1 & \frac{2}{1.5} & \frac{2}{1.2} & \frac{2}{0.8} \\
-\text{Tráfico} & 1.5 & \frac{1.5}{2} & 1 & \frac{1.5}{1.2} & \frac{1.5}{0.8} \\
-\text{Visibilidad} & 1.2 & \frac{1.2}{2} & \frac{1.2}{1.5} & 1 & \frac{1.2}{0.8} \\
-\text{Competencia} & 0.8 & \frac{0.8}{2} & \frac{0.8}{1.5} & \frac{0.8}{1.2} & 1 \\
+\textbf{Accesibilidad} & 1 & \frac{1}{2} & \frac{1}{1.5} & \frac{1}{1.2} & \frac{1}{0.8} \\
+\textbf{Costo alquiler} & 2 & 1 & \frac{2}{1.5} & \frac{2}{1.2} & \frac{2}{0.8} \\
+\textbf{Tráfico} & 1.5 & \frac{1.5}{2} & 1 & \frac{1.5}{1.2} & \frac{1.5}{0.8} \\
+\textbf{Visibilidad} & 1.2 & \frac{1.2}{2} & \frac{1.2}{1.5} & 1 & \frac{1.2}{0.8} \\
+\textbf{Competencia} & 0.8 & \frac{0.8}{2} & \frac{0.8}{1.5} & \frac{0.8}{1.2} & 1 \\
 \end{array}
 $$
 
@@ -347,11 +350,11 @@ $$
 
 A partir de estos datos se pide:
 
-(a) Identificar el diagrama de jerarquías de este problema de decisión.
-(b) Calcular las ponderaciones asociadas a cada criterio manejado.
-(c) Calcular las ponderaciones de las cinco alternativas en función de cada criterio.
-(d) Verificar la consistencia de las preferencias de la cadena de restaurantes.
-(e) Determinar la prioridad global de cada ubicación.
+a) Identificar el diagrama de jerarquías de este problema de decisión.
+b) Calcular las ponderaciones asociadas a cada criterio manejado.
+c) Calcular las ponderaciones de las cinco alternativas en función de cada criterio.
+d) Verificar la consistencia de las preferencias de la cadena de restaurantes.
+e) Determinar la prioridad global de cada ubicación.
 
 <br>
 
@@ -436,7 +439,7 @@ Xmat.competencia
 
 <br>
 
-### Con funciones R
+### **Con funciones R**
 
 #### (a) Identificar el diagrama de jerarquías de este problema de decisión.
 ```{r}
@@ -455,7 +458,7 @@ multicriterio.metodoahp.diagrama(Xmat.criterios,Xmatriznivel2)
 ```
 
 En esta estructura jerárquica podemos ver claramente tres niveles: el primero define el objetivo principal del problema, el segundo nivel son los correspondientes a los criterios donde se reflejan los pesos de cada uno de ellos y el último nivel son las alternativas junto con sus pesos. <br>
-Se puede decir que la mejor alternativa sería la ubicación A con un peso de 0.2339 y la peor es la ubicación C con un peso de 0.1464. 
+Con solo mirarlo se puede decir que la mejor alternativa sería la ubicación A con un peso de 0.2339 y la peor es la ubicación C con un peso de 0.1464. 
 
 <br>
 
@@ -466,7 +469,7 @@ pesos.criterios$valoraciones.ahp
 # Pesos ordenados
 pesos.criterios$valoraciones.ahp.ordenadas
 ```
-**CONCLUSIÓN:** vemos que el costo de alquiler es el criterio más importante para seleccionar la ubicación del nuevo restaurante con una ponderación de 0.3032967 (30,32%), luego es el criterio que tiene más peso en la decisión final seguido del tráfico con una ponderación de 0.2417582 (24,17%). El criterio con menor peso es la competencia con una ponderación de 0.1213187 (12,13%), lo que indica que es el criterio menos importante para la decisión final. <br>
+**CONCLUSIÓN:** vemos que el costo de alquiler es el criterio más importante para seleccionar la ubicación del nuevo restaurante con una ponderación de 0.3032967 (30,32%), luego es el criterio que tiene más peso en la decisión final seguido del tráfico con una ponderación de 0.2417582 (24,17%). El criterio con menor peso es la competencia con una ponderación de 0.1213187 (12,13%), lo que indica que es el criterio menos importante para la cadena de restaurantes. <br>
 
 <br>
 
@@ -477,6 +480,7 @@ Los pesos locales son:
 ```{r}
 pesos.accesibilidad = multicriterio.metodoAHP.variante3.basico(Xmat.accesibilidad)
 pesos.accesibilidad$valoraciones.ahp
+# Pesos ordenados
 pesos.accesibilidad$valoraciones.ahp.ordenadas
 ```
 **CONCLUSIÓN:** podemos ver que para el criterio de accesibilidad, la ubicación E es la alternativa más favorable ya que es la que presenta mayor peso (0.2647059) entre las demás. <br>
@@ -485,6 +489,7 @@ pesos.accesibilidad$valoraciones.ahp.ordenadas
 ```{r}
 pesos.costoAlquiler = multicriterio.metodoAHP.variante3.basico(Xmat.costoAlquiler)
 pesos.costoAlquiler$valoraciones.ahp
+# Pesos ordenados
 pesos.costoAlquiler$valoraciones.ahp.ordenadas
 ```
 **CONCLUSIÓN:** podemos ver que para el criterio de accesibilidad, la ubicación E es la alternativa más favorable ya que es la que presenta mayor peso (0.2554745) entre las demás. <br>
@@ -493,6 +498,7 @@ pesos.costoAlquiler$valoraciones.ahp.ordenadas
 ```{r}
 pesos.trafico = multicriterio.metodoAHP.variante3.basico(Xmat.trafico)
 pesos.trafico$valoraciones.ahp
+# Pesos ordenados
 pesos.trafico$valoraciones.ahp.ordenadas
 ```
 **CONCLUSIÓN:** podemos ver que para el criterio de tráfico, la ubicación A es la alternativa más favorable ya que es la que presenta mayor peso (0.2571429) entre las demás. <br>
@@ -501,6 +507,7 @@ pesos.trafico$valoraciones.ahp.ordenadas
 ```{r}
 pesos.visibilidad = multicriterio.metodoAHP.variante3.basico(Xmat.visibilidad)
 pesos.visibilidad$valoraciones.ahp
+# Pesos ordenados
 pesos.visibilidad$valoraciones.ahp.ordenadas
 ```
 **CONCLUSIÓN:** podemos ver que para el criterio de visibilidad, la ubicación E es la alternativa más favorable ya que es la que presenta mayor peso (0.2432432) entre las demás. <br>
@@ -509,6 +516,7 @@ pesos.visibilidad$valoraciones.ahp.ordenadas
 ```{r}
 pesos.competencia = multicriterio.metodoAHP.variante3.basico(Xmat.competencia)
 pesos.competencia$valoraciones.ahp
+# Pesos ordenados
 pesos.competencia$valoraciones.ahp.ordenadas
 ```
 **CONCLUSIÓN:** podemos ver que para el criterio de competencia, la ubicación A es la alternativa más favorable ya que es la que presenta mayor peso (0.2500000) entre las demás. <br>
@@ -592,7 +600,7 @@ knitr::kable(mPondRamas*100,digits = 2)
 <br>
 <br>
 
-### Mediante la librería AHP
+### **Mediante la librería AHP**
 
 Los datos están recogidos en el archivo llamado "problema.ahp". Lo cargamos:
 ```{r}
@@ -640,8 +648,9 @@ formattable::as.htmlwidget(aa)
 aab=AnalyzeTable(ahp_problema,variable="priority")
 formattable::as.htmlwidget(aab)
 ```
-**CONCLUSIÓN:** podemos concluir diciendo que la ubicación A, una zona céntrica de la ciudad, es la mejor alternativa combinando los cinco criterios evaluados para la cadena de restaurantes, con una prioridad global de 23.4%. Esto se debe principalmente a su buen desempeño en los criterios de tráfico (25,7%, la mejor puntuación) y competencia (25.0%). La segunda mejor opción es la ubicación E, que presenta la segunda prioridad global más alta de 21.9%, destacándose en el criterio de accesibilidad con un 26.5%. <br>
-Se puede decir que la peor de las alternativas barajadas por la cadena es la ubicación C con el menor peso global de 14.6%, debido a su bajo rendimiento en la mayoría de los criterios evaluados.
+**CONCLUSIÓN:** podemos concluir diciendo que la ubicación A, una zona céntrica de la ciudad, es la mejor alternativa combinando los cinco criterios evaluados para la cadena de restaurantes, con una prioridad global de 23.4% sobre las demás. Esto se debe principalmente a su buen desempeño en los criterios de tráfico (25,7%, la mejor puntuación) y competencia (25.0%). La segunda mejor opción es la ubicación E, que presenta la segunda prioridad global más alta de 21.9%, destacándose en el criterio de accesibilidad con un 26.5%. 
+
+Se puede decir que la peor de las alternativas barajadas por la cadena es la ubicación C, la zona de oficnas, con el menor peso global de 14.6%, debido a su bajo rendimiento en la mayoría de los criterios evaluados.
 
 
 <br>
@@ -650,13 +659,13 @@ ________________________________________________________________________________
 
 <br>
 
-## CONCLUSIONES FINALES
-<br>
+## **Conclusiones finales**
 
 El objetivo de este problema ha sido elegir una de las cinco ubicaciones presentadas y evaluadas por un total de cinco criterios que toman más o menos importancia en la decisión final. Se ha demostrado que el costo de alquiler ha sido el criterio con más peso, por lo que es considerado el criterio más importante en la toma de la decisión, seguido del tráfico y siendo la competencia el menos relevante de todos. 
 
-Tras haber estudiado la situación por tres métodos distintos (Promethee, Electre y AHP), podemos ver que todas las conclusiones coinciden en que la mejor alternativa es la ubicación A, luego la decisión final de la cadena será abrir el nuevo restaurante en una zona céntrica de la ciudad de Sevilla.
+Tras haber estudiado la situación por tres métodos distintos (Promethee, Electre y AHP), podemos ver que las tres conclusiones coinciden en que la mejor alternativa es la ubicación A, luego la decisión final de la cadena será abrir el nuevo restaurante en una zona céntrica de la ciudad de Sevilla.
 
-Podría haber pasado que algún método resultara una ubicación distinta. Esto se debe a que según el método que usemos para resolver un mismo problema de decisión multicriterio, con las mismas alternativas y criterios, los resultados pueden variar debido a la funcionalidad de cada uno de ellos.
+Podría haber pasado que en algún método resultara una ubicación distinta. Esto se debe a que según el método que usemos para resolver un mismo problema de decisión multicriterio, con las mismas alternativas y mismos criterios, los resultados pueden variar debido a la funcionalidad y enfoque de cada uno de ellos.
 
-
+<br>
+<br>
