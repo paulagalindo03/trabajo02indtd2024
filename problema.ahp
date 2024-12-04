@@ -90,4 +90,3 @@ Goal:
             - [C, E, 2]
             - [D, E, 6]
         children: *alternatives
-        
