@@ -11,7 +11,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 <br>
-
+ 
 ## **<u>Elección de la ubicación para abrir un nuevo restaurante</u>**
 
 Una cadena de restaurantes está planeando expandir su negocio en la ciudad de Sevilla. Después de analizar varias zonas, la empresa ha seleccionado cinco ubicaciones donde podría abrir su próximo local. Sin embargo, cada una de estas ubicaciones presenta ventajas y desventajas en diferentes aspectos, por lo que la cadena desea tomar una decisión final basada en cinco criterios principales: facilidad en la accesibilidad para los clientes (puntuándose del 1 al 10, siendo 10 una accesibilidad excelente), costo mensual (en €) de alquiler del nuevo local, el tráfico de personas en la ubicación (puntuándose del 1 al 10, donde 10 representa el tráfico más alto de clientes), la visibilidad del local en avenidas principales o zonas concurridas (que se mide del 1 al 10, siendo 10 la mejor visibilidad) y la competencia en la zona con otros restaurantes (medida del 1 al 10, siendo 1 la máxima competencia).
