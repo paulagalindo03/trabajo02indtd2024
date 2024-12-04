@@ -216,7 +216,7 @@ tabla_res$tabAcciones
 ```
 <br>
 
-**CONCLUSIÓN:** de igual manera que concluimos en los métodos Promethee anteriores, podemos decir que la mejor alternativa que puede tomar la cadena para abrir un nuevo restaurante será la ubicación A, una zona de oficinas, seguida de la ubicación D, B, E y quedando como peor alternativa la ubicación C, una zona de oficinas.
+**CONCLUSIÓN:** de igual manera que concluimos en los métodos Promethee anteriores, podemos decir que la mejor alternativa que puede tomar la cadena para abrir un nuevo restaurante será la ubicación A, una zona céntrica de la ciudad, seguida de la ubicación D, B, E y quedando como peor alternativa la ubicación C, una zona de oficinas.
 
 
 <br>
@@ -275,58 +275,58 @@ Para determinar la mejor ubicación, la cadena ha identificado las siguientes ma
 
 $$
 \begin{aligned}
-\begin{array}{c|ccc}
+\begin{array}{c|ccccc}
 \textbf{Accesibilidad} & \text{A} & \text{B} & \text{C} & \text{D} & \text{E} \\
 \hline
-\text{A} & 1 & \frac{8}{6} & \frac{8}{4} & \frac{8}{7} & \frac{8}{9} \\
-\text{B} & \frac{6}{8} & 1 & \frac{6}{4} & \frac{6}{7} & \frac{6}{9} \\
-\text{C} & \frac{4}{8} & \frac{4}{6} & 1 & \frac{4}{7} & \frac{4}{9}\\
-\text{D} & \frac{7}{8} & \frac{7}{6} & \frac{7}{4} & 1 & \frac{7}{9}\\
-\text{E} & \frac{9}{8} & \frac{9}{6} & \frac{9}{4} & \frac{9}{7} & 1\\
+\text{A} & 1 & 3 & 5 & 2 & \frac{1}{3} \\
+\text{B} & \frac{1}{3} & 1 & 3 & \frac{1}{2} & \frac{1}{4} \\
+\text{C} & \frac{1}{5} & \frac{1}{3} & 1 & \frac{1}{5} & \frac{1}{6}\\
+\text{D} & \frac{1}{2} & 2 & 5 & 1 & \frac{1}{3}\\
+\text{E} & 3 & 4 & 6 & 3 & 1\\
 \end{array}
-\quad &
-\begin{array}{c|ccc}
+\quad & \quad &
+\begin{array}{c|ccccc}
 \textbf{Costo alquiler} & \text{A} & \text{B} & \text{C} & \text{D} & \text{E} \\
 \hline
-\text{A} & 1 & \frac{3000}{2500} & \frac{3000}{2000} & \frac{3000}{2700} & \frac{3000}{3500} \\
-\text{B} & \frac{2500}{3000} & 1 & \frac{2500}{2000} & \frac{2500}{2700} & \frac{2500}{3500} \\
-\text{C} & \frac{2000}{3000} & \frac{2000}{2500} & 1 & \frac{2000}{2700} & \frac{2000}{3500}\\
-\text{D} & \frac{2700}{3000} & \frac{2700}{2500} & \frac{2700}{2000} & 1 & \frac{2700}{3500}\\
-\text{E} & \frac{3500}{3000} & \frac{3500}{2500} & \frac{3500}{2000} & \frac{3500}{2700} & 1\\
+\text{A} & 1 & 4 & 5 & 2 & \frac{1}{4} \\
+\text{B} & \frac{1}{4} & 1 & 3 & 1 & \frac{1}{5} \\
+\text{C} & \frac{1}{5} & \frac{1}{3} & 1 & \frac{1}{4} & \frac{1}{6}\\
+\text{D} & \frac{1}{2} & 1 & 4 & 1 & \frac{1}{3}\\
+\text{E} & 4 & 5 & 6 & 3 & 1\\
 \end{array}
-\quad &
-\begin{array}{c|ccc}
+\quad & \quad &
+\begin{array}{c|ccccc}
 \textbf{Tráfico} & \text{A} & \text{B} & \text{C} & \text{D} & \text{E} \\
 \hline
-\text{A} & 1 & \frac{9}{7} & \frac{9}{5} & \frac{9}{8} & \frac{9}{6} \\
-\text{B} & \frac{7}{9} & 1 & \frac{7}{5} & \frac{7}{8} & \frac{7}{6} \\
-\text{C} & \frac{5}{9} & \frac{5}{7} & 1 & \frac{5}{8} & \frac{5}{6}\\
-\text{D} & \frac{8}{9} & \frac{8}{7} & \frac{8}{5} & 1 & \frac{8}{6}\\
-\text{E} & \frac{6}{9} & \frac{6}{7} & \frac{6}{5} & \frac{6}{8} & 1\\
+\text{A} & 1 & 3 & 5 & 2 & 4 \\
+\text{B} & \frac{1}{3} & 1 & 4 & \frac{1}{3} & 2 \\
+\text{C} & \frac{1}{5} & \frac{1}{4} & 1 & \frac{1}{4} & \frac{1}{2}\\
+\text{D} & \frac{1}{2} & 3 & 4 & 1 & 3\\
+\text{E} & \frac{1}{4} & \frac{1}{2} & 2 & \frac{1}{3} & 1\\
 \end{array}
 \end{aligned}
 $$
 <br>
 $$
 \begin{aligned}
-\begin{array}{c|ccc}
+\begin{array}{c|ccccc}
 \textbf{Visibilidad} & \text{A} & \text{B} & \text{C} & \text{D} & \text{E} \\
 \hline
-\text{A} & 1 & \frac{8}{7} & \frac{8}{6} & \frac{8}{7} & \frac{8}{9} \\
-\text{B} & \frac{7}{8} & 1 & \frac{7}{6} & 1 & \frac{7}{9} \\
-\text{C} & \frac{6}{8} & \frac{6}{7} & 1 & \frac{6}{7} & \frac{6}{9}\\
-\text{D} & \frac{7}{8} & 1 & \frac{7}{6} & 1 & \frac{7}{9}\\
-\text{E} & \frac{9}{8} & \frac{9}{7} & \frac{9}{6} & \frac{9}{7} & 1\\
+\text{A} & 1 & 2 & 3 & 2 & \frac{1}{2} \\
+\text{B} & \frac{1}{2} & 1 & 2 & 1 & \frac{1}{2} \\
+\text{C} & \frac{1}{3} & \frac{1}{2} & 1 & \frac{1}{2} & \frac{1}{3}\\
+\text{D} & \frac{1}{2} & 1 & 2 & 1 & \frac{1}{3}\\
+\text{E} & 2 & 2 & 3 & 3 & 1\\
 \end{array}
 \quad & \quad &
 \begin{array}{c|ccc}
 \textbf{Competencia} & \text{A} & \text{B} & \text{C} & \text{D} & \text{E} \\
 \hline
-\text{A} & 1 & \frac{6}{5} & \frac{6}{4} & 1 & \frac{6}{3} \\
-\text{B} & \frac{5}{6} & 1 & \frac{5}{4} & \frac{5}{6}  & \frac{5}{3} \\
-\text{C} & \frac{4}{6} & \frac{4}{5} & 1 & \frac{4}{6} & \frac{4}{3}\\
-\text{D} & 1 & \frac{6}{5} & \frac{6}{4} & 1 & \frac{6}{3}\\
-\text{E} & \frac{3}{6} & \frac{3}{5} & \frac{3}{4} & \frac{3}{6} & 1\\
+\text{A} & 1 & 3 & 4 & 1 & 6 \\
+\text{B} & \frac{1}{3} & 1 & 2 & \frac{1}{3}  & 4 \\
+\text{C} & \frac{1}{4} & \frac{1}{2} & 1 & \frac{1}{4} & 2\\
+\text{D} & 1 & 3 & 4 & 1 & 6\\
+\text{E} & \frac{1}{6} & \frac{1}{4} & \frac{1}{2} & \frac{1}{6} & 1\\
 \end{array}
 \end{aligned}
 $$
@@ -335,14 +335,14 @@ $$
 También ha recogido sus prioridades en relación con los cinco criterios manejados.
 
 $$
-\begin{array}{c|ccc}
+\begin{array}{c|ccccc}
 \  & \textbf{Accesibilidad} & \textbf{Costo alquiler} & \textbf{Tráfico} & \textbf{Visibilidad} & \textbf{Competencia} \\
 \hline
-\textbf{Accesibilidad} & 1 & \frac{1}{2} & \frac{1}{1.5} & \frac{1}{1.2} & \frac{1}{0.8} \\
-\textbf{Costo alquiler} & 2 & 1 & \frac{2}{1.5} & \frac{2}{1.2} & \frac{2}{0.8} \\
-\textbf{Tráfico} & 1.5 & \frac{1.5}{2} & 1 & \frac{1.5}{1.2} & \frac{1.5}{0.8} \\
-\textbf{Visibilidad} & 1.2 & \frac{1.2}{2} & \frac{1.2}{1.5} & 1 & \frac{1.2}{0.8} \\
-\textbf{Competencia} & 0.8 & \frac{0.8}{2} & \frac{0.8}{1.5} & \frac{0.8}{1.2} & 1 \\
+\textbf{Accesibilidad} & 1 & \frac{1}{4} & \frac{1}{3} & \frac{1}{2} & 2 \\
+\textbf{Costo alquiler} & 4 & 1 & 2 & 3 & 6 \\
+\textbf{Tráfico} & 3 & \frac{1}{2} & 1 & 2 & 7 \\
+\textbf{Visibilidad} & 2 & \frac{1}{3} & \frac{1}{2} & 1 & 3 \\
+\textbf{Competencia} & \frac{1}{2} & \frac{1}{6} & \frac{1}{7} & \frac{1}{3} & 1 \\
 \end{array}
 $$
 
@@ -364,11 +364,11 @@ Empiezo creando las matrices anteriores para poder trabajar.
 **Matriz de criterios**
 ```{r}
 nombre.criterios <-c("Accesibilidad","Costo alquiler","Tráfico","Visibilidad","Competencia")
-Xmat.criterios= multicriterio.crea.matrizvaloraciones(c(1,1/2,1/1.5,1/1.2,1/0.8,
-                                                        2,1,2/1.5,2/1.2,2/0.8,
-                                                        1.5,1.5/2,1,1.5/1.2,2/0.8,
-                                                        1.2,1.2/2,1.2/1.5,1,1.2/0.8,
-                                                        0.8,0.8/2,0.8/1.5,0.8/1.2,1),
+Xmat.criterios= multicriterio.crea.matrizvaloraciones(c( 1,  1/4, 1/3, 1/2, 2,
+                                                         4,   1,   2,   3,  6,
+                                                         3,  1/2,  1,   2,  7, 
+                                                         2,  1/3, 1/2,  1,  3,
+                                                        1/2, 1/6, 1/7, 1/3, 1),
                                                       numalternativas = 5, 
                                                       v.nombres.alternativas = nombre.criterios)
 Xmat.criterios
@@ -379,11 +379,11 @@ Xmat.criterios
 - **Accesibilidad**
 ```{r}
 nombre.alternativas <- c("Ubicación A","Ubicación B","Ubicación C","Ubicación D","Ubicación E")
-Xmat.accesibilidad = multicriterio.crea.matrizvaloraciones(c(1,8/6,8/4,8/7,8/9,
-                                                             6/8,1,6/4,6/7,6/9,
-                                                             4/8,4/6,1,4/7,4/9,
-                                                             7/8,7/6,7/4,1,7/9,
-                                                             9/8,9/6,9/4,9/7,1),
+Xmat.accesibilidad = multicriterio.crea.matrizvaloraciones(c( 1,   3,  5,  2,  1/3,
+                                                             1/3,  1,  3, 1/2, 1/4, 
+                                                             1/5, 1/3, 1, 1/5, 1/6,
+                                                             1/2,  2,  5,  1,  1/3,
+                                                              3,   4,  6,  3,   1),
                                                            numalternativas = 5,
                                                            nombre.alternativas)
 Xmat.accesibilidad
@@ -391,11 +391,11 @@ Xmat.accesibilidad
 - **Costo de alquiler**
 ```{r}
 nombre.alternativas <- c("Ubicación A","Ubicación B","Ubicación C","Ubicación D","Ubicación E")
-Xmat.costoAlquiler = multicriterio.crea.matrizvaloraciones(c(1,3000/2500,3000/2000,3000/2700,3000/3500,
-                                                             2500/3000,1,2500/2000,2500/2700,2500/3500,
-                                                             2000/3000,2000/2500,1,2000/2700,2000/3500,
-                                                             2700/3000,2700/2500,2700/2000,1,2700/3500,
-                                                             3500/3000,3500/2500,3500/2000,3500/2700,1),
+Xmat.costoAlquiler = multicriterio.crea.matrizvaloraciones(c( 1,   4,  5,  2,  1/4,
+                                                             1/4,  1,  3,  1,  1/5,
+                                                             1/5, 1/3, 1, 1/4, 1/6,
+                                                             1/2,  1,  4,  1,  1/3,
+                                                              4,   5,  6,  3,   1),
                                                            numalternativas = 5,
                                                            nombre.alternativas)
 Xmat.costoAlquiler
@@ -403,37 +403,37 @@ Xmat.costoAlquiler
 - **Tráfico**
 ```{r}
 nombre.alternativas <- c("Ubicación A","Ubicación B","Ubicación C","Ubicación D","Ubicación E")
-Xmat.trafico = multicriterio.crea.matrizvaloraciones(c(1,9/7,9/5,9/8,9/6,
-                                                             7/9,1,7/5,7/8,7/6,
-                                                             5/9,5/7,1,5/8,5/6,
-                                                             8/9,8/7,8/5,1,8/6,
-                                                             6/9,6/7,6/5,6/8,1),
-                                                           numalternativas = 5,
-                                                           nombre.alternativas)
+Xmat.trafico = multicriterio.crea.matrizvaloraciones(c( 1,   3,  5,  2,   4, 
+                                                       1/3,  1,  4, 1/3,  2,
+                                                       1/5, 1/4, 1, 1/4, 1/2,
+                                                       1/2,  3,  4,  1,   3,
+                                                       1/4, 1/2, 2, 1/3,  1),
+                                                     numalternativas = 5,
+                                                     nombre.alternativas)
 Xmat.trafico
 ```
 - **Visibilidad**
 ```{r}
 nombre.alternativas <- c("Ubicación A","Ubicación B","Ubicación C","Ubicación D","Ubicación E")
-Xmat.visibilidad = multicriterio.crea.matrizvaloraciones(c(1,8/7,8/6,8/7,8/9,
-                                                             7/8,1,7/6,1,7/9,
-                                                             6/8,6/7,1,6/7,6/9,
-                                                             7/8,1,7/6,1,7/9,
-                                                             9/8,9/7,9/6,9/7,1),
-                                                           numalternativas = 5,
-                                                           nombre.alternativas)
+Xmat.visibilidad = multicriterio.crea.matrizvaloraciones(c( 1,   2,  3,  2,  1/2,
+                                                           1/2,  1,  2,  1,  1/2,
+                                                           1/3, 1/2, 1, 1/2, 1/3,  
+                                                           1/2,  1,  2,  1,  1/3,
+                                                            2,   2,  3,  3,   1),
+                                                         numalternativas = 5,
+                                                         nombre.alternativas)
 Xmat.visibilidad
 ```
 - **Competencia**
 ```{r}
 nombre.alternativas <- c("Ubicación A","Ubicación B","Ubicación C","Ubicación D","Ubicación E")
-Xmat.competencia = multicriterio.crea.matrizvaloraciones(c(1,6/5,6/4,1,6/3,
-                                                           5/6,1,5/4,5/6,5/3,
-                                                           4/6,4/5,1,4/6,4/3,
-                                                           1,6/5,6/4,1,6/3,
-                                                           3/6,3/5,3/4,3/6,1),
-                                                           numalternativas = 5,
-                                                           nombre.alternativas)
+Xmat.competencia = multicriterio.crea.matrizvaloraciones(c( 1,   3,   4,   1,  6,
+                                                           1/3,  1,   2,  1/3, 4,
+                                                           1/4, 1/2,  1,  1/4, 2,
+                                                            1,   3,   4,   1,  6,
+                                                           1/6, 1/4, 1/2, 1/6, 1),
+                                                         numalternativas = 5,
+                                                         nombre.alternativas)
 Xmat.competencia
 ```
 
@@ -458,7 +458,7 @@ multicriterio.metodoahp.diagrama(Xmat.criterios,Xmatriznivel2)
 ```
 
 En esta estructura jerárquica podemos ver claramente tres niveles: el primero define el objetivo principal del problema, el segundo nivel son los correspondientes a los criterios donde se reflejan los pesos de cada uno de ellos y el último nivel son las alternativas junto con sus pesos. <br>
-Con solo mirarlo se puede decir que la mejor alternativa sería la ubicación A con un peso de 0.2339 y la peor es la ubicación C con un peso de 0.1464. 
+Con solo mirarlo se puede decir que la mejor alternativa sería la ubicación E con un peso de 0.3234 y la peor es la ubicación C con un peso de 0.0586.  
 
 <br>
 
@@ -469,7 +469,7 @@ pesos.criterios$valoraciones.ahp
 # Pesos ordenados
 pesos.criterios$valoraciones.ahp.ordenadas
 ```
-**CONCLUSIÓN:** vemos que el costo de alquiler es el criterio más importante para seleccionar la ubicación del nuevo restaurante con una ponderación de 0.3032967 (30,32%), luego es el criterio que tiene más peso en la decisión final seguido del tráfico con una ponderación de 0.2417582 (24,17%). El criterio con menor peso es la competencia con una ponderación de 0.1213187 (12,13%), lo que indica que es el criterio menos importante para la cadena de restaurantes. <br>
+**CONCLUSIÓN:** vemos que el costo de alquiler es el criterio más importante para seleccionar la ubicación del nuevo restaurante con una ponderación de 0.41664094 (41,66%), luego es el criterio que tiene más peso en la decisión final seguido del tráfico con una ponderación de 0.28410750 (28,41%). El criterio con menor peso es la competencia con una ponderación de 0.05180667 (5,18%), lo que indica que es el criterio menos importante para la cadena de restaurantes. <br>
 
 <br>
 
@@ -483,7 +483,7 @@ pesos.accesibilidad$valoraciones.ahp
 # Pesos ordenados
 pesos.accesibilidad$valoraciones.ahp.ordenadas
 ```
-**CONCLUSIÓN:** podemos ver que para el criterio de accesibilidad, la ubicación E es la alternativa más favorable ya que es la que presenta mayor peso (0.2647059) entre las demás. <br>
+**CONCLUSIÓN:** podemos ver que para el criterio de accesibilidad, la ubicación E es la alternativa más favorable ya que es la que presenta mayor peso (0.44217689) entre las demás. <br>
 
 - Costo de alquiler
 ```{r}
@@ -492,7 +492,7 @@ pesos.costoAlquiler$valoraciones.ahp
 # Pesos ordenados
 pesos.costoAlquiler$valoraciones.ahp.ordenadas
 ```
-**CONCLUSIÓN:** podemos ver que para el criterio de accesibilidad, la ubicación E es la alternativa más favorable ya que es la que presenta mayor peso (0.2554745) entre las demás. <br>
+**CONCLUSIÓN:** podemos ver que para el criterio de accesibilidad, la ubicación E es la alternativa más favorable ya que es la que presenta mayor peso (0.47116969) entre las demás. <br>
 
 - Tráfico
 ```{r}
@@ -501,7 +501,7 @@ pesos.trafico$valoraciones.ahp
 # Pesos ordenados
 pesos.trafico$valoraciones.ahp.ordenadas
 ```
-**CONCLUSIÓN:** podemos ver que para el criterio de tráfico, la ubicación A es la alternativa más favorable ya que es la que presenta mayor peso (0.2571429) entre las demás. <br>
+**CONCLUSIÓN:** podemos ver que para el criterio de tráfico, la ubicación A es la alternativa más favorable ya que es la que presenta mayor peso (0.40582873) entre las demás. <br>
 
 - Visibilidad
 ```{r}
@@ -510,7 +510,7 @@ pesos.visibilidad$valoraciones.ahp
 # Pesos ordenados
 pesos.visibilidad$valoraciones.ahp.ordenadas
 ```
-**CONCLUSIÓN:** podemos ver que para el criterio de visibilidad, la ubicación E es la alternativa más favorable ya que es la que presenta mayor peso (0.2432432) entre las demás. <br>
+**CONCLUSIÓN:** podemos ver que para el criterio de visibilidad, la ubicación E es la alternativa más favorable ya que es la que presenta mayor peso (0.36339161) entre las demás. <br>
 
 - Competencia
 ```{r}
@@ -519,7 +519,7 @@ pesos.competencia$valoraciones.ahp
 # Pesos ordenados
 pesos.competencia$valoraciones.ahp.ordenadas
 ```
-**CONCLUSIÓN:** podemos ver que para el criterio de competencia, la ubicación A es la alternativa más favorable ya que es la que presenta mayor peso (0.2500000) entre las demás. <br>
+**CONCLUSIÓN:** podemos ver que para el criterio de competencia, la ubicación A es la alternativa más favorable ya que es la que presenta mayor peso (0.35559701) entre las demás. <br>
 
 <br>
 
@@ -595,7 +595,7 @@ Expresados en porcentajes:
 knitr::kable(mPondRamas*100,digits = 2)
 ```
 
-**CONCLUSIÓN:** finalmente se puede decir que la ubicación A, una zona céntrica de la ciudad, es la mejor opción para abrir el nuevo restaurante, con una ponderación global de 0.2339400 (23,39%). Esto indica que, a partir de los criterios evaluados (accesibilidad, costo de alquiler, tráfico, visibilidad y competencia), esta ubicación es la que mejor cumple con los requisitos de la cadena en comparación con las demás alternativas que poseen ponderaciones globales más bajas. La peor alternativa para el nuevo restaurante sería la ubicación C, la zona de oficinas, con una ponderación global de 0.1463845 (14,64%).
+**CONCLUSIÓN:** finalmente se puede decir que la ubicación E, una zona residencial de alto nivel económico, es la mejor opción para abrir el nuevo restaurante, con una ponderación global de 0.3234353 (32,34%). Esto indica que, a partir de los criterios evaluados (accesibilidad, costo de alquiler, tráfico, visibilidad y competencia), esta ubicación es la que mejor cumple con los requisitos de la cadena en comparación con las demás alternativas que poseen ponderaciones globales más bajas. La peor alternativa para el nuevo restaurante sería la ubicación C, la zona de oficinas, con una ponderación global de 0.0586343 (5,86%).
 
 <br>
 <br>
@@ -629,11 +629,11 @@ Lo analizamos:
 ```{r}
 Analyze(ahp_problema,variable="priority")
 ```
-**CONCLUSIÓN:** en cuanto a los criterios podemos decir que el más importante para la cadena de restaurantes es el costo de alquiler con un 30.8%, seguido del tráfico (23.1%) y siendo la competencia el criterio con menor importancia en la decisión final (12.3%).
+**CONCLUSIÓN:** en cuanto a los criterios podemos decir que el más importante para la cadena de restaurantes es el costo de alquiler con un 41.9%, seguido del tráfico (28.4%) y siendo la competencia el criterio con menor importancia en la decisión final (5.1%).
 
-Si nos centramos en cada uno de los criterios por separados, observamos un desglose porcentual de preferencia para las alternativas. Por ejemplo, para el criterio "CostoAlquiler", la ubicación E es la que mayor peso tiene con un porcentaje de 25.5% mientras que la ubicación con menor peso es la C (14.6%). Para el criterio "Tráfico", la mejor alternativa es la ubicación A (25.7%) y la peor vuelve a ser la ubicación C.
+Si nos centramos en cada uno de los criterios por separados, observamos un desglose porcentual de preferencia para las alternativas. Por ejemplo, para el criterio "CostoAlquiler", la ubicación E es la que mayor peso tiene con un porcentaje de 49.0% mientras que la ubicación con menor peso es la C (4.5%). Para el criterio "Tráfico", la mejor alternativa es la ubicación A (40.9%) y la peor vuelve a ser la ubicación C.
 
-La inconsistencia en todas las comparaciones es de 0.0%, lo que indica que las evaluaciones realizadas son perfectamente consistentes según los principios del AHP.  
+En general, los valores de la inconsistencia son aceptables ya que se encuentran todos por debajo del 10%, esto indica que el análisis AHP es fiable.
 
 <br>
 
@@ -648,9 +648,9 @@ formattable::as.htmlwidget(aa)
 aab=AnalyzeTable(ahp_problema,variable="priority")
 formattable::as.htmlwidget(aab)
 ```
-**CONCLUSIÓN:** podemos concluir diciendo que la ubicación A, una zona céntrica de la ciudad, es la mejor alternativa combinando los cinco criterios evaluados para la cadena de restaurantes, con una prioridad global de 23.4% sobre las demás. Esto se debe principalmente a su buen desempeño en los criterios de tráfico (25,7%, la mejor puntuación) y competencia (25.0%). La segunda mejor opción es la ubicación E, que presenta la segunda prioridad global más alta de 21.9%, destacándose en el criterio de accesibilidad con un 26.5%. 
+**CONCLUSIÓN:** podemos concluir diciendo que la ubicación E, una zona residencial de alto nivel económico, es la mejor alternativa combinando los cinco criterios evaluados para la cadena de restaurantes, con una prioridad global de 33.2% sobre las demás. Esto se debe principalmente a su buen desempeño en los criterios de costo de alquiler (49.0%, la mejor puntuación) y accesibilidad (45.0%). La segunda mejor opción es la ubicación A, que presenta la segunda prioridad global más alta de 29.4%, destacándose en el criterio de tráfico con un 40.9%. 
 
-Se puede decir que la peor de las alternativas barajadas por la cadena es la ubicación C, la zona de oficnas, con el menor peso global de 14.6%, debido a su bajo rendimiento en la mayoría de los criterios evaluados.
+Se puede decir que la peor de las alternativas barajadas por la cadena es la ubicación C, la zona de oficinas, con el menor peso global de 5.7%, debido a su bajo rendimiento en la mayoría de los criterios evaluados.
 
 
 <br>
@@ -663,9 +663,9 @@ ________________________________________________________________________________
 
 El objetivo de este problema ha sido elegir una de las cinco ubicaciones presentadas y evaluadas por un total de cinco criterios que toman más o menos importancia en la decisión final. Se ha demostrado que el costo de alquiler ha sido el criterio con más peso, por lo que es considerado el criterio más importante en la toma de la decisión, seguido del tráfico y siendo la competencia el menos relevante de todos. 
 
-Tras haber estudiado la situación por tres métodos distintos (Promethee, Electre y AHP), podemos ver que las tres conclusiones coinciden en que la mejor alternativa es la ubicación A, luego la decisión final de la cadena será abrir el nuevo restaurante en una zona céntrica de la ciudad de Sevilla.
+Tras haber estudiado la situación por tres métodos distintos (Promethee, Electre y AHP), podemos ver que las tres conclusiones no coinciden en la misma alternativa. Mientras que para Promethee y Electre se demuestra que la ubicación A sería la mejor, para el método AHP la alternativa óptima será la ubicación E. Tomando en cuenta la conclusión de la mayoría de los criterios de selección, la decisión final de la cadena será abrir el nuevo restaurante en una zona céntrica de la ciudad de Sevilla.
 
-Podría haber pasado que en algún método resultara una ubicación distinta. Esto se debe a que según el método que usemos para resolver un mismo problema de decisión multicriterio, con las mismas alternativas y mismos criterios, los resultados pueden variar debido a la funcionalidad y enfoque de cada uno de ellos.
+Esto se debe a que según el método que usemos para resolver un mismo problema de decisión multicriterio, con las mismas alternativas y mismos criterios, los resultados pueden variar debido a la funcionalidad y enfoque de cada uno de ellos. Promethee compara alternativas usando funciones de preferencia y considerando pesos y umbrales. Por otro lado, Electre analiza la dominancia mediante concordancia y discordancia y el método AHP prioriza los criterios en una jerarquía, evaluando consistencia en las comparaciones por pares.
 
 <br>
 <br>
